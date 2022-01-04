@@ -41,6 +41,7 @@ Para poder mantener esto de manera estable, las criptomonedas se rigen bajo cier
  - El minero que inserte el bloque recibirá una recompensa. Esta recompensa disminuye a medida que se inserten más bloques en la cadena.
  - El bloque debe ser aceptado por la mayoria de los mineros antes de insertarse en la cadena.
  - Por cada bloque se genera un Hash, que los identifica. Para hashear un bloque, se necesita: Hash anterior + Fecha y Hora de creación del bloque + Transaccion de recompensa para el minero + Todas las transacciones que quepan hasta completar 1 MB + Prueba de trabajo (detallaremos mas adelante).
+ 
  LINK: https://www.blockchain.com/btc/blocks?page=1
  
 _Recordemos que los Hash tienen la propiedad de que si conocemos la formula, es muy facil, a partir de los datos, obtener ese hash, pero teniendo el hash es muy dificil saber cuales son los datos iniciales_
@@ -57,4 +58,5 @@ Esto significa que para poder falsificar una transacción, se debe superar, en p
 ### ¿De dónde salen las criptomonetas? 
 Las criptomonedas se generan cada vez que se crea un bloque, es decir, la recompensa de los mineros. En un principio, fue muy incentivada por especuladores y personas que evitaban mantener un registro de sus monedas.
 
-
+### ¿Qué determina el precio de las criptomonedas?
+El precio se determina por la oferta y la demanda. Cuando se incrementa la demanda, el precio sube, y cuando cae la demanda, el precio baja. Hay un número limitado de criptomonedas en circulación y las nuevas son creadas a una velocidad predecible y decreciente, esto significa que la demanda debe seguir este nivel de inflación para mantener un precio estable.
