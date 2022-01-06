@@ -64,6 +64,12 @@ Las criptomonedas se generan cada vez que se crea un bloque, es decir, la recomp
 ### ¿Qué determina el precio de las criptomonedas?
 El precio se determina por la oferta y la demanda. Cuando se incrementa la demanda, el precio sube, y cuando cae la demanda, el precio baja. Hay un número limitado de criptomonedas en circulación y las nuevas son creadas a una velocidad predecible y decreciente, esto significa que la demanda debe seguir este nivel de inflación para mantener un precio estable.
 
+<br>
+<br>
+<br>
+<br>
+<br>
+
 ## INTRODUCCIÓN A SERIES TEMPORALES
 
 ### ¿Qué son las series de tiempo?
@@ -116,5 +122,18 @@ Existen diferentes clasificaciones que se le pueden dar a las Series Temporales 
 
 
 ### Métodos de las Series Temporales
-1) **Pronóstico y suavizamiento simple:** La idea es que a partir de un conjunto de datos observados, se determine una clasificación del comportamiento y realice una extrapolación hacia adelante.
-2) 
+1) _**Métodos simples:**_ Estos métodos son muy simples y para nuestro objetivo carecen de aplicación <br>
+ 1- _Media:_ La idea aquí es calcular una media de las observaciones anteriores, el cual será la predicción.
+ 2- _Naive:_ La idea de este método es replicar la predicción anterior.
+ 3- _Naive Estacional_: La lógica de este método es tomar un intervalo de la serie y replicarlo en el tiempo.
+
+2) _**Método de suavizado exponencial:**_ El objetivo de este método es generar un promedio ponderado de las observaciones pasadas, es decir, las observaciones mas recientes tienen más peso.
+
+3) _**Método de Holt:**_ Este método es una variante del anterior, el cual incluye un parámetro para capturar la tendencia de la serie.
+
+4) _**Método de Holt-Winters:**_ Este es una variante del método de Holt, la cual permite capturar la estacionalidad de la serie
+
+5) _**Método ARIMA:**_ Este método surge de combinar los métodos autoregresivos y de medias móviles.
+
+Pero, ¿Cómo medimos la calidad de una predicción?
+Bueno, para determinar la calidad, nos apoyamos en una **función de autocorrelación**. Esta función nos indica qué tan relacionados están 2 valores identicos de 2 funciones diferentes (la función predecida y la función real)
