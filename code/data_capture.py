@@ -19,7 +19,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 
-btc = web.get_data_yahoo(['BTC-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10))
+btc = web.get_data_yahoo(['BTC-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10), interval="1m")
 eth = web.get_data_yahoo(['ETH-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10))
 ada = web.get_data_yahoo(['ADA-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10))
 

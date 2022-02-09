@@ -1,0 +1,573 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+%opening
+\title{Predicción de Precios de Criptomonedas Utilizando Series de Tiempo}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\tableofcontents
+
+
+\section{Introducción}
+
+\subsection{Criptomonedas}
+
+ Una criptomoneda es un activo digital que emplea un cifrado para garantizar integridad, autenticidad y confidencialidad de las transacciones, es decir, funcionan como moneda de cambio y solucionan los problemas que las monedas de cambio tradicionales presentan.
+
+ El dinero viene a solucionar los problemas del mercado, es decir, determinar cuánto de mi producto vale el tuyo. Por ejemplo: cuántas gallinas vale tu vaca (en palabras poco formales y en un contexto muy simple), o cuanto capital valen mis horas de servicio.
+
+(...)"El dinero es válido en la medida que otro lo acepte"(...)
+
+Una vez que entendemos ese concepto, podemos abstraer a la moneda como cualquier objeto (real o no) que resuelva estos aspectos.
+
+Pero para que nuestra monera sea válida, debe cumplir ciertos aspectos:
+
+\begin{itemize}
+ \item Debe servir como moneda de cambio, es decir, quien aporta el capital recibe un bien o servicio a cambio.
+ \item Debe servir de referencia de valor, es decir, poder determinar, a través de dicha moneda, cuánto vale un bien o servicio.
+ \item Debe servir como reserva de valor, es decir, que su valor no se vea moficado con el paso del tiempo.
+\end{itemize}
+
+Estos 3 parametros son determinados por la sociedad, según el uso y confianza que le tengan a la moneda.
+
+Las criptomonedas no son diferentes a las monedas corrientes, con algunas salvedades:
+
+\begin{itemize}
+ \item No hay un ente central del que dependamos (como el banco) que regule las transacciones.
+
+ \item Mantiene total privacidad, ya que toda la información está encriptada y nadie sabe la información del dueño del dinero.
+
+ \item Evita problemas de "devaluación" de la moneda, ya que no depende de factores socio-económicos (como la emisión monetaria)
+\end{itemize}
+
+Este sistema funciona bajo el modelo Peer-To-Peer (P2P), donde cada usuario funciona como cliente o servidor de otro, según corresponda. Es decir, si queremos saber cuanto dinero tiene una persona, debemos mantener un registro global, que incluye a todas las transacciones que han ocurrido desde el origen de una determina criptomoneda. Este registro debe ser público, para que cualquier persona pueda consultarlo en cualquier momento.
+
+Pero si existe este registro ¿Cómo puede existir la privacidad?
+La privacidad se sigue respetando, ya que realmente no se sabe a quien pertenece el dinero que figura en dichas transacciones. Esta cadena de transacciones se conoce como \textbf{BlockChain} (cadena de bloques). La idea aquí es formar una LinkedList, donde cada bloque apunta al anterior.
+Las personas encargadas de añadir los bloques al registro de transacciones se conocen como \textbf{mineros}.
+
+Supongamos que Pepe le quiere transferir dinero a Pedro, entonces, la tarea del minero es crear un bloque con los datos (encriptados) de Pepe y Pedro y añadirlos a la cadena de bloque. Este registro esta almacenado en cada uno de los usuarios de la red. Una vez que se añade el bloque a la cadena, se avisa al resto de los mineros que añadan dicho en su registro.
+Nótese que un bloque puede contener muchas transacciones.
+
+\href{https://user-images.githubusercontent.com/63267942/148128644-24016ab7-d877-47fb-ba4d-23a4dd8702f3.png}{FirstLink}
+
+Para poder mantener esto de manera estable, las criptomonedas se rigen bajo ciertas reglas. Por ejemplo en el caso del Bitcoin:
+ - Cada bloque está hecho de un fichero de texto, que contiene los datos de las transacciones.
+ - Cada bloque tiene aproximadamente 1 MB
+ - El minero que inserte el bloque recibirá una recompensa. Esta recompensa disminuye a medida que se inserten más bloques en la cadena.
+ - El bloque debe ser aceptado por la mayoria de los mineros antes de insertarse en la cadena.
+ - Por cada bloque se genera un Hash, que los identifica. Para hashear un bloque, se necesita: Hash anterior + Fecha y Hora de creación del bloque + Transaccion de recompensa para el minero + Todas las transacciones que quepan hasta completar 1 MB + Prueba de trabajo (detallaremos mas adelante).
+
+ LINK: \href{https://www.blockchain.com/btc/blocks?page=1}{SecondLink}
+
+\_Recordemos que los Hash tienen la propiedad de que si conocemos la formula, es muy facil, a partir de los datos, obtener ese hash, pero teniendo el hash es muy dificil saber cuales son los datos iniciales\_
+
+Esta particularidad, hace que sea muy dificil o imposible la falsificación de nuevos bloques, ya que al cambiar algún dato de la transacción, cambiaría completamente su hash, el cual debe cumplir con ciertos requisitos.
+
+Posibles problemas:
+
+ 1- Supongamos que tenemos un amigo minero con el cual queremos hacer un pacto para que él se lleve la recompensa haciendo una transacción con un bitcoin y luego otra con el mismo bitcoin, realizando una estafa. Para evitar estos problemas, cada transacción debe estar aprobada por la comunidad de mineros, que no lo aprobarían. Como la recompensa es muy alta, si el bloque está mal, aún pueden llevarse ellos la recompensa.
+
+ 2- Supongamos que un usuario malicioso tiene máquinas bots mineras para garantizar la mayor cantidad de votos a favor en sus transacciones. Este es el problema más grande que tenemos, ya que no se puede validar si son bots o votos autenticos. Para solucionar esto, se introduce el concepto de **\_Proof of works\_**. En este caso, la prueba de trabajo es que los hash inicien con cierta cantidad de 0's, el cual es modificado cada cierta cantidad de bloques.
+Como el hash cambia con cada minima modificación, la idea es que si se quiere falsificar una transacción, el minero deba buscar un número de forma tal que el hash empiece con la cantidad de 0's correspondientes. Esta cantidad de 0's se ajusta de acuerdo a la capacidad de cómputo de mineria que haya en la red.
+
+Esto significa que para poder falsificar una transacción, se debe superar, en potencia informática, a más de la mitad de los mineros en toda la red.
+
+ ¿De dónde salen las criptomonetas?
+
+ Las criptomonedas se generan cada vez que se crea un bloque, es decir, la recompensa de los mineros. En un principio, fue muy incentivada por especuladores y personas que evitaban mantener un registro de sus monedas.
+
+ ¿Qué determina el precio de las criptomonedas?
+
+ El precio se determina por la oferta y la demanda. Cuando se incrementa la demanda, el precio sube, y cuando cae la demanda, el precio baja. Hay un número limitado de criptomonedas en circulación y las nuevas son creadas a una velocidad predecible y decreciente, esto significa que la demanda debe seguir este nivel de inflación para mantener un precio estable.
+
+\bigskip
+
+\bigskip
+
+\subsection{Series Temporales}
+
+Una serie de tiempo es una forma estructurada u ordenada de presentar los datos, en donde un parámetro temporal regular o irregular (fecha, hora, semana, día, mes, año, etc.) lleva asociado un valor.
+
+Se usan para estudiar la relación causa-consecuencia entre diversas variables que cambian con el tiempo. Desde el punto de vista probabilístico, una serie temporal es una sucesión de variables aleatorias indexadas según parámetro creciente con el tiempo, que conforman un conjunto ordenado de datos y coexisten de forma dependiente entre ellas.
+
+Con la ayuda del machine learning, puede servir para detectar patrones implicitos en el comportamiento de los fenómenos con el solo hecho de ordenarlos según un parámetro temporal.
+
+Por ejemplo: Un caso trivial podría ser el de realizar una serie temporal con las ventas del año de una heladería. El resultado en este caso es trivial. Las ventas alcanzan un maximo relativo en verano y un mínimo relativo en invierno.
+
+El instrumento de análisis que se suele utilizar es
+un modelo que permita reproducir el comportamiento de la variable de interés. Estos pueden ser:
+
+\begin{itemize}
+ \item Univariantes: la serie temporal es analizada únicamente en función de su propio pasado;
+
+ \item Multivariantes: son analizadas varias series temporales, en consecuencia a la suposición de dependencia o relación entre ellas.
+\end{itemize}
+
+Describimos matemáticamente una serie temporal univariante como un conjunto de observaciones, de tamaño $T$, sobre una variable $Y$:
+
+\begin{equation}
+ Y_t, \quad t = 1,2,...,T
+\end{equation}
+
+
+
+El pronóstico de la serie temporal implica extender los valores históricos hacia el futuro, tales como el periodo y el horizonte (cantidad de periodos proyectados). Si es un modelo univariante, se pronostica únicamente en términos de valores pasados $Y_t$, lo que comunmente llamamos extrapolación.
+
+Si una serie temporal es extrapolable exactamente, decimos que ésta es determinista. Sin embargo, la gran parte de ellas no lo son y están condicionadas a una distribución de probabilidad dependiente de sus valores pasados.
+
+Los modelos utilizados para caracterizar una serie temporal responden siempre a una misma fórmula:
+
+\begin{equation}\label{eqn:sistinnov}
+ Y_t = S_t + a_t
+\end{equation}
+
+Donde $S_t$ indica el comportamiento regular de la variable -conocida como parte sistémica- y $a_t$ es el comportamiento aleatorio -tambien denominada \textit{innovación}-.
+
+En modelos de series univariantes, $S_t$ se determina únicamente en función del pasado de la serie:
+
+\begin{equation}
+ S_t = f(Y_t, Y_{t-1}, Y_{t-2},...)
+\end{equation}
+
+
+
+\subsubsection{Análisis de las Series Temporales}
+
+Las series temporales pueden ser descritas en función de sus componentes. En ciertos modelos, son resultado de cuatro componentes que actúan en conjunto:
+
+\begin{itemize}
+
+ \item \textbf{Tendencia secular o regular.} Indica el crecimiento, decrecimiento o estacionalidad general y persistente del fenómeno observado, es la componente que refleja la evolución a largo plazo. La denotaremos como $B_t$.
+
+ \item \textbf{Variación estacional o variación cíclica regular.} Está relacionada con el movimiento periódico de corto plazo. Se trata de una componente causal debida a la influencia de ciertos fenómenos que se repiten de manera periódica en un periodo de tiempo. Por ejemplo, si el periodo es un año, las estaciones son una variacion cíclica regular, si el periodo es una semana, los fines de semana son la variación estacional, si el periodo es un día, las horas son la variación estacional. Recopila las oscilaciones que se producen en esos períodos temporales regulares. La denotaremos como $E_t$.
+
+\item \textbf{Variación cíclica.} Recoge las oscilaciones periódicas de amplitud superior a un año. Movimientos normalmente irregulares alrededor de la tendencia, en las que, a diferencia de las variaciones estacionales, tiene un período y amplitud variables. En otras palabras, son variaciones estacionales de largo plazo y de eventos irregulares. Esta componente puede no existir, ya que la serie temporal puede no ser cíclica en ningún momento. La denotaremos como $C_t$.
+
+ \item \textbf{Variación aleatoria o ruido.} Incluye todos aquellos factores que no muestran ninguna regularidad, debidos a fenómenos de carácter ocasional. Por ejemplo: Tormentas en relación con las cosechas de alguna verdura. La denotaremos como $R_t$.
+
+\end{itemize}
+
+Estas componentes generan los siguientes tipos de series:
+
+\begin{itemize}
+ \item \textbf{Aditivas.} Sumando sus componentes: $X_t = B_t + E_t + C_t + R_t$
+
+ \item \textbf{Multiplicativas.} Multiplicando sus componentes: $X_t = B_t * E_t * C_t * R_t$
+
+ \item \textbf{Mixtas.} Sumando y multiplicando sus componentes, por lo que existen varias alternativas. Por ejemplo: $X_t = B_t + E_t * C_t * R_t$
+\end{itemize}
+
+Sin embargo, la clasificación arriba descrita no es utilizada para modelos ARIMA. En estos, se trata de obtener la representación de la serie en términos de la interrelación temporal entre sus elementos.
+
+\subsubsection{Coeficiente de autocorrelación}
+
+Uno de los instrumentos utilizados es el coeficiente de correlación $\rho_{xy}$ entre dos variables $x_t$ y $y_t$. Este coeficiente mide el grado de asociación lineal entre ellas:
+
+\begin{equation}
+ \rho_{xy} = \frac{cov(x,y)}{\sqrt{V(x)V(y)}}
+\end{equation}
+
+donde, por definición, $\rho_{xy} \in [-1,1]$.
+
+De este coeficiente de correlación poblacional podemos estimar el coeficiente de correlación muestral:
+
+\begin{equation}
+ r_{xy} = \frac{\sum_{t=1}^{T} (x_t - \bar{x}) (y_t - \bar{y})}
+ {\sqrt{\sum_{t=1}^{T} (x_t - \bar{x})^2 \sum_{t=1}^{T} (y_t - \bar{y})^2 } }
+\end{equation}
+
+Si tenemos $T$ observaciones $Y_1,..., Y_T$, podemos crear ($T-1$) pares de observaciones ($Y_1,Y_2),...,(Y_{T-1},Y_T)$. Es decir, consideramos $Y_1,...,Y_{T-1}$ como una variable y $Y2,...,Y_T$ como otra para definir la correlación entre ambas variables $Y_t,Y_{t+1}$:
+
+\begin{equation}
+ r_{Y_t Y_{t+1}} = \frac{\sum_{t=1}^{T-1} (Y_t - \bar{Y}_{(1)}) (Y_{t+1} - \bar{Y}_{(2)})}
+ {\sqrt{\sum_{t=1}^{T-1} (Y_t - \bar{Y}_{(1)})^2 \sum_{t=1}^{T-1} (Y_{t+1} - \bar{Y}_{(2)})^2 } }
+\end{equation}
+
+Donde $\bar{Y}_{(1)}$ y $\bar{Y}_{(2)}$ es la media muestral de las primeras $T-1$ observaciones y la media muestral de las últimas $T-1$ observaciones, respectivamente.
+
+La expresión anterior es aproximadamente:
+
+\begin{equation}
+ r_{Y_t Y_{t+1}} \approx r_1 = \frac{\sum_{t=1}^{T-1} (Y_t - \bar{Y}) (Y_{t+1} - \bar{Y})}
+ {\sum_{t=1}^{T} (Y_t - \bar{Y})^2 }
+\end{equation}
+
+El subíndice indica el intervalo de correlación lineal de las observaciones analizadas. En el caso anterior descrito, $r_1$ analiza observaciones sucesivas y se denomina \textit{coeficiente de autocorrelación de primer orden}.
+
+Por tanto, el coeficiente de autocorrelación de orden $k$ viene dado por:
+
+\begin{equation}
+ r_k = \frac{\sum_{t=1}^{T-k} (Y_t - \bar{Y}) (Y_{t+k} - \bar{Y})}
+ {\sum_{t=1}^{T} (Y_t - \bar{Y})^2 }
+\end{equation}
+
+Para interpretar el conjunto de los coeficientes de autocorrelación de una serie temporal se utiliza un \textit{correlograma}, que es un gráfico que agrupa los $k$ coeficientes de autocorrelación.
+
+Estos suelen comenzar en $k=1$ puesto que un $k=0$ en la Ecuación (8) siempre es $1$.
+
+\begin{enumerate}
+ \item Si una serie es puramente aleatoria, $r_k \approx 0$ para cualquier $k \neq 0$ siendo $T$ suficientemente grande.
+
+ \item Series sin tendencia oscilantes en torno a una media constante:
+
+ \begin{enumerate}
+  \item Si contiene observaciones por encima de la media seguidas de una o más observaciones por encima de la media (lo mismo para observaciones por debajo de la media), entonces $r_k$ decrece tendiendo a cero rápidamente a medida que aumenta $k$.
+
+  \item Si contiene observaciones alternantes por encima y debajo de la media, el correlograma presenta valores decrecientes que alternan su signo.
+ \end{enumerate}
+
+ \item Si la serie contiene una tendencia, los valores de $r_k$ no decrecerán a cero rápidamente. Esto se debe a que un valor observado tiene sucesivos valores que estarán por encima (o debajo) de la media. Este tipo de comportamiento nos da poca información.
+
+ \item Si una serie presenta algún tipo de ciclo, el correlograma también presentará una oscilación
+a la misma frecuencia. En las series con un comportamiento cı́clico permanente, el correlograma da
+de nuevo poca información porque lo domina el comportamiento cı́clico presente en los datos.
+\end{enumerate}
+
+
+
+
+
+\section{Procesos Estocásticos}
+
+Un proceso estocástico es una familia de variables aleatorias relacionadas entre sí y que siguen una ley de distribución conjunta. Lo denotaremos por:
+
+\begin{center}
+ $...,Y_{t-2},Y_{t-1},Y_t,Y_{t+1},Y_{t+2},...$ o $Y_t$
+\end{center}
+
+A simple vista podemos entender que fijar $t=t_0$ nos dá una variable aleatoria de la secuencia \textit{presumiblemente ordenada}\footnote{El orden en la sucesión de observaciones es único en una serie temporal. Alterarlo implicaría modificar las características de la serie.}. Además, llamaremos \textit{realización} del proceso a la asignación de un valor a cada una de las variables aleatorias del mismo.
+
+En virtud de lo anterior, una serie temporal $Y_t, Y_{t+1},Y_{t+2},...$ se puede interpretar como una realización muestral de un proceso estocástico para un número finito de periodos $t=1,2,...,T$.
+
+\subsection{Características}
+
+\textbf{Función de distribución.} Incluye todas las funciones de distribución para cualquier subconjunto finito de variables aleatorias del proceso:
+
+\begin{center}
+$F[Y_{t_i}, Y_{t_{i+1}},...,Y_{t_n}]$ siendo $n$ finito.
+\end{center}
+
+\textbf{Momentos del proceso estocástico.} El primer momento de un proceso estocástico es el conjunto de las medias de todas las variables aleatorias del proceso:
+
+\begin{equation}
+E(Y_t) = \mu_t < \infty, \quad t = 0, \pm 1, \pm 2, ...
+\end{equation}
+
+El segundo momento viene dado por el conjunto de las varianzas de todas las variables aleatorias del proceso y por las covarianzas entre todo par de variables aleatorias:
+
+\begin{equation}
+\begin{split}
+V(Y_t) & = E[Y_t - \mu_t]^2 = \sigma_t^2 < \infty, \quad t=0, \pm 1, \pm 2, ... \\
+cov(Y_t,Y_s) & = E[Y_t - \mu_t][Y_s - \mu_s] = \gamma_{t,s} \quad \forall t,s \quad (t \neq s)
+\end{split}
+\end{equation}
+
+\subsection{Procesos estocásticos estacionarios}
+
+Para hacer análisis y predicciones consistentes a una serie de tiempo, es necesario que la estructura probabilística que subyace en el proceso estocástico sea estable en el tiempo. Es decir, las regularidades del comportamiento pasado deben ser capaces de proyectarse a futuro. Estas características de un proceso estocástico se las conoce como \textit{estacionariedad}.
+
+\textbf{Estacionariedad estricta.} Un proceso estocástico es estrictamente estacionario si y solo si
+
+\begin{equation}
+F[Y_{t_i}, Y_{t_{i+1}},...,Y_{t_n}] = F[Y_{t_i+k}, Y_{t_{i+1}+k},...,Y_{t_n+k}]
+\end{equation}
+
+en otras palabras, si la función de distribución de cualquier conjunto finito de variables aleatorias del proceso no se altera si se desplaza $k$ periodos en el tiempo.
+
+\textbf{Estacionariedad en covarianza.} Un proceso estocástico es estacionario en covarianza si y solo si:
+
+\begin{enumerate}
+ \item Es estacionario en media, es decir, todas las variables aleatorias tienen la misma media y es finita:
+ \begin{equation}
+  E(Y_t) = \mu < \infty, \quad \forall t
+ \end{equation}
+
+ \item Todas las variables aleatorias tienen la misma varianza y es finita:
+ \begin{equation}\label{eqn:varianza}
+  V(Y_t) = E[Y_t - \mu]^2 = \sigma_Y^2 < \infty, \quad \forall t
+ \end{equation}
+
+ \item La covarianza lineal entre dos variables aleatorias del proceso que disten $k$ periodos de tiempo es la misma que existe entre cualesquiera otras dos variables que estén separadas también $k$ periodos. También conocemos esta propiedad como \textit{autocovarianza}:
+ \begin{equation}\label{eqn:covarianza}
+  cov(Y_t,Y_s) = E[Y_t - \mu][Y_s - \mu] = \gamma_{t,s} = \gamma_{|t-s|} = \gamma_k \quad \forall k
+ \end{equation}
+
+\end{enumerate}
+
+Finalmente, decimos que un proceso estocástico estacionario en covarianza está caracterizado si se conoce:
+
+\begin{center}
+ $\mu$, $V(Y_t)$, $\gamma_k$, k=0,\pm 1, \pm 2,...
+\end{center}
+
+Si bien las series económicas no presentan comportamientos estacionarios, particularmente las series temporales que reflejan el precio de una criptomoneda, se procederá a proponer modelos que para procesos estacionarios. A partir de estos se puede modelar para un proceso no estacionario.
+
+\subsection{Formalización de funciones}
+
+\textbf{Función de autocovarianzas.} Es una función de $k$ (número
+de periodos de separación entre las variables) que recoge el conjunto de las autocovarianzas del proceso estocástico estacionario:
+
+\begin{center}
+$\gamma_k$, $k=0,1,2,...$
+\end{center}
+
+Es una función simétrica:
+
+\begin{center}
+$\gamma_k = \gamma_{-k}$
+\end{center}
+
+y, además, incluye la varianza del proceso para $k=0$:
+
+\begin{center}
+$\gamma_0 = V(Y_t)$.
+\end{center}
+
+\textbf{Función de autocorrelación.} Al igual que la anterior, recoge toda la información de la estructura dinámica lineal del proceso estocástico con la diferencia de que es independiente de las unidades de la variable.
+
+El coeficiente de autocorrelación de orden $k$ de un proceso estocástico estacionario mide el grado de asociación lineal existente entre dos variables aleatorias del proceso separadas por $k$ periodos:
+
+\begin{equation}
+\rho_k = \frac{cov(Y_t, Y_{t+k})}{\sqrt{V(Y_t)*V(Y_{t+k)}}} = \frac{\gamma_k}{\sqrt{\gamma_0 * \gamma_0}} = \frac{\gamma_k}{\gamma_0}
+\end{equation}
+
+donde
+
+\begin{center}
+$|\rho_k| \leq 1$, $\forall k$
+\end{center}
+
+La función de autocorrelación de un proceso estocástico estacionario es una función de $k$ que
+recoge el conjunto de los coeficientes de autocorrelación del proceso y se denota por $\rho_k$. La función de autocorrelación se suele representar gráficamente por medio de un correlograma.
+
+El coeficiente de autocorrelación de orden 0 es, por definición, 1. Genera una función simétrica, por lo que un correlograma solo representa valores positivos de $k$. Esta función, además, tiende a cero rápidamente a medida que $k$ tiende a infinito.
+
+De estas premisas, al observar un correlograma podemos concluir que su correspondiente serie no es estacionaria si la función no decrece rápidamente.
+
+\subsubsection{Estacionaridad y estimación de momentos}
+
+Si la serie temporal $(Y_1,Y_2,...,Y_T)$ no fuera estacionaria, ya no tendríamos una única media, ni una única varianza y las autocorrelaciones serían demasiadas. La estacionaridad es, desde luego, una restricción necesaria para estimar los momentos de un proceso estocástico.
+
+\subsection{Ruido blanco}
+
+El proceso estocástico ruido blanco, denotado $w_t$, lo definimos como:
+
+\begin{equation*}
+\begin{split}
+E(w_t) &= 0, \forall t \\
+V(w_t) &= \sigma^2, \forall t \\
+Cov(w_t,w_s) &= 0, \forall t \neq s \\
+\end{split}
+\end{equation*}
+
+Un proceso ruido blanco $w_t ~ RB(0,\sigma^2)$ es estacionario si la varianza $\sigma^2$ es finita, con función de autocovarianzas:
+
+\begin{equation*}
+\gamma_k= \left\{ \begin{array}{lcc}
+             \sigma^2, \quad k=0 \\
+             0, \quad k > 0
+             \end{array}
+   \right.
+\end{equation*}
+
+y función de autocorrelación:
+
+\begin{equation*}
+\rho_k= \left\{ \begin{array}{lcc}
+             1, \quad k=0 \\
+             0, \quad k > 0
+             \end{array}
+   \right.
+\end{equation*}
+
+EJEMPLO DE RUIDO BLANCO
+
+
+
+
+ Métodos de las Series Temporales
+
+ 1) \_**Métodos simples:**\_ Estos métodos son muy simples y para nuestro objetivo carecen de aplicación <br>
+ 1- \_Media:\_ La idea aquí es calcular una media de las observaciones anteriores, el cual será la predicción.
+ 2- \_Naive:\_ La idea de este método es replicar la predicción anterior.
+ 3- \_Naive Estacional\_: La lógica de este método es tomar un intervalo de la serie y replicarlo en el tiempo.
+
+2) \_**Método de suavizado exponencial:**\_ El objetivo de este método es generar un promedio ponderado de las observaciones pasadas, es decir, las observaciones mas recientes tienen más peso.
+
+3) \_**Método de Holt:**\_ Este método es una variante del anterior, el cual incluye un parámetro para capturar la tendencia de la serie.
+
+4) \_**Método de Holt-Winters:**\_ Este es una variante del método de Holt, la cual permite capturar la estacionalidad de la serie
+
+5) \_**Método ARIMA:**\_ Este método surge de combinar los métodos autoregresivos y de medias móviles.
+
+Pero, ¿Cómo medimos la calidad de una predicción?
+Bueno, para determinar la calidad, nos apoyamos en una **función de autocorrelación**. Esta función nos indica qué tan relacionados están 2 valores identicos de 2 funciones diferentes (la función predecida y la función real)
+
+
+
+
+
+
+
+
+\section{Modelos estacionarios}
+
+La estructura de dependencia temporal de una serie está recogida en la función de autocovarianzas y/o en la función de autocorrelación. Mediante un modelo ARMA, se tratará de reproducir el comportamiento general y posteriormente predecir con la ayuda del mismo.
+
+\subsection{Modelo Lineal General}
+
+Anteriormente descompusimos una serie temporal univariante en dos componentes (\ref{eqn:sistinnov}). Ahora, nuestra parte sistémica contiene la información para construir el modelo mientras que la innovación contendrá valores sin dependencia entre sí, tanto en valores pasados como con su parte sistémica. La innovación, como se habrá podido intuir, es el ruido blanco.
+
+Así, un modelo teórico capaz de describir un comportamiento de una serie temporal con media cero sería:
+
+\begin{equation}
+Y_t = f(Y_{t-1},Y_{t-2},...) + w_t, \quad t=1,2,...
+\end{equation}
+
+El proceso estocástico puede responder a un proceso de Gauss (CITA REQUERIDA), por lo que $Y_t$ puede expresarse como una combinación lineal de sus valores pasados infinitos más una innovación:
+
+\begin{equation}\label{eqn:ar}
+Y_t = \pi_1 Y_{t-1} + \pi_2 Y_{t-2} + ... + w_t \quad t=1,2,...
+\end{equation}
+
+donde $Y_t$ es un proceso estacionario y $\pi_i$ son constantes con $\phi_t \neq 0$.
+
+Para que esto suceda, es preciso que el proceso sea \textit{no anticipante}: cualquier valor $Y_i$ no debe depender de valores futuros. En adición, el proceso debe ser \textit{invertible}, es decir que el presente dependa de forma convergente con su propio pasado. A medida que nos alejemos en el tiempo, la influencia de $Y_k$ debe disminuir. Esta restricción viene dada por:
+
+ECUACION
+
+\textbf{Operador de retardos.} Lo definimos como:
+
+\begin{equation}
+BY_t = Y_{t-1}
+\end{equation}
+
+particularmente:
+
+\begin{equation*}
+B^2Y_t = B(BY_t) = BY_{t-1} = Y_{t-2}
+\end{equation*}
+
+y generalmente:
+
+\begin{equation}
+B^kY_t = Y_{t-k}
+\end{equation}
+
+Reescribimos (\ref{eqn:ar}) en función del operador de retardos:
+
+\begin{center}
+$Y_t = (\pi_1B + \pi_2B^2 + ...) Y_t + w_t$
+
+$(1-\pi_1B - \pi_2 B^2 - ...) Y_t = w_t$
+\end{center}
+
+Si $(1-\pi_1B - \pi_2 B^2 - ...) = \pi_\infty(B)$:
+
+\begin{equation}\label{eqn:infinit}
+\pi_\infty(B)Y_t = w_t
+\end{equation}
+
+Teniendo presente que $\pi_\infty(B)$ es un polinomio de orden infinito, es necesario aproximarlo a uno de orden finito -los modelos a desarrollar deberán representar procesos estocásticos acotados en el tiempo:
+
+\begin{equation}\label{eqn:finit}
+\pi_\infty(B) \approx \frac{\phi_p(B)}{\theta_q(B)}
+\end{equation}
+
+donde:
+
+\begin{equation}
+\begin{split}
+\phi_p(B) &= 1 - \phi_1B - \phi_2B^2 - ... - \phi_pB^p \\
+\theta_p(B) &= 1 - \theta_1B - \theta_2B^2 - ... - \theta_qB^q
+\end{split}
+\end{equation}
+
+Sustituyendo (\ref{eqn:finit}) en (\ref{eqn:infinit}):
+
+\begin{equation}
+\phi_p(B) Y_t = \theta_q (B) w_t
+\end{equation}
+
+Por lo tanto, este modelo lineal general admite tres representaciones:
+
+\begin{itemize}
+ \item \textit{Puramente regresiva, AR($\infty$):} el valor presente de la variable se representa en función de su propio pasado más una innovación contemporánea.
+
+ \item \textit{Puramente de medias móviles, MA($\infty$):} el valor presente de la variable se representa en función de todas las innovaciones pasadas y presente.
+
+ \item \textit{Finita:}
+
+ \begin{equation}
+ \begin{split}
+ &(1-\phi_1B - \phi_2B^2 - ... - \phi_pB^p) Y_t = (1-\theta_1B - \theta_2B^2 - ... - \theta_qB^q) w_t \\
+ &Y_t = \phi_1Y_{t-1} + \phi_2Y_{t-2} + ... + \phi_pY_{t-p} + w_t -\theta_1w_{t-1} - \theta_2w_{t-2} - ... - \theta_qw_{t-q}
+ \end{split}
+ \end{equation}
+
+ Este modelo se denomina \textit{Autorregresivo de Medias Móviles} de orden $(p,q)$. En él, el valor de $Y_t$ depende del pasado de $Y$ hasta el momento $t-p$ de la innovación contemporánea y su pasado hasta el momento $t-q$.
+\end{itemize}
+
+
+
+\begin{comment}
+# Modelo ARMA
+
+El nombre ARMA es la abreviatura de Modelos Autorregresivos de Media Móvil. Proviene de la fusión de dos modelos más simples:
+  1) **_El autorregresivo o AR:_** Es una representación de un proceso aleatorio, en el que la variable de interés depende de sus observaciones pasadas. La forma genérica de representar un AR sería la siguiente.
+     - _C_: Es la posición inicial, o el último valor leido de la serie.
+     - _θ_: Algún factor multiplicativo.
+     - _Y_<sub>t-1</sub>: El valor leído anteriormente
+     - _ε_<sub>t</sub>: Termino de error
+      <p align="center">
+          <img src=https://economipedia.com/wp-content/uploads/Modelo-AR-1-formula.png />
+      </p>
+
+     _NOTA: Nótese que una regresión puede estar compuesto por un conjunto de valores pasados._
+
+
+  2) **_El promedio móvil o MA:_** Es un promedio de valores que se va modificando a lo largo del tiempo. La media móvil es un indicador de tendencia que nunca se anticipa a la tendencia de las cotizaciones, es decir, simplemente sigue a la curva de cotizaciones confirmando la tendencia en cada momento.
+  <br><br>Existen varios modelos:
+      - **Media Móvil Simple:** Recoge el dato que se genera en la última sesión, y a su vez, descarta el dato más antiguo de la serie temporal. La duda que existe es ¿Cuántos términos considerar? <br>
+
+        <p align="center">
+          <img src=https://user-images.githubusercontent.com/63267942/149024008-9cab5989-be52-4655-a84f-e013cec55b21.png />
+        </p>
+
+        - Si elegimos un **_n_** bajo, nuestra predicción tendrá una alta capacidad para responder rápidamente ante fluctuaciones, ya que la pendiente no se ve influenciada por muchos datos. En contraparte, se vé muy influenciada por los factores aleatorios por la misma razón.<br><br>
+        - Si elegimos un **_n_** alto, nuestra predicción filtra o anula los factores aleatorios, ya que no influyen mucho en un promedio de datos grandes, pero presenta cierta inflexibilidad para adaptarse a cambios drásticos válidos en el corto plazo.<br>
+
+          _NOTA: Un problema con esta serie es que cambia 2 veces al leer un nuevo dato, primero por leer un dato nuevo, y segundo por sacar un dato viejo_
+
+      - **Media Móvil Ponderada:** Para evitar que los datos viejos afecten significativamente a la predicción de la serie, se utilizan las medias móviles ponderadas, donde a medida que los datos se vuelven viejos, pierden valor. La idea atrás de este método es que como los datos ya son muy antiguos, no son rendundates para los valores actuales. Esto permite que la serie pueda adaptarse con mayor facilidad a los cambios abruptos en el corto plazo, ya que las ultimas lecturas toman mayor redundancia.
+         <p align="center">
+            <img src=https://user-images.githubusercontent.com/63267942/149025788-1fd63a1a-df6e-49c6-9dc0-0a4b12e575e2.png />
+          </p>
+
+
+      - **Media Móvil Exponencial:** Es un tipo particular de Media Móvil Ponderada que responde a un crecimiento o decrecimiento exponencial, donde los datos antiguos influyen, pero es casi insignificante.
+
+<br>
+<br>
+<br>
+Luego de esta introducción podemos definir matemáticamente a los modelos ARMA. El modelo general de series temporales autorregresivo con media móvil de _p_ términos autorregresivos y _q_ términos de media móvil se expresa como:
+<p align="center">
+  <img src=https://economipedia.com/wp-content/uploads/Modelo-ARMA.jpg />
+</p>
+\end{comment}
+
+
+\section{Modelos no estacionarios}
+
+\end{document}
