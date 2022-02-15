@@ -16,7 +16,13 @@ La idea de este algoritmo es plantear a la serie temporal como la suma de 4 comp
 
 Prophet intenta ajustar las funciones (lineales o no) a los datos dando más o menos importancia a los distintos efectos, es decir, un modelo muy parametrizable:
 
-1) El primer término se modela como una curva de crecimiento logístico (curva sigmoidea). Estos casos corresponden a situaciones en donde se da una saturación que no permite el crecimiento más allá de un límite determinado. Se aplica una sigmoide pero un poco cambiada.
+
+1) **Tendencia lineal g(t):** Para calcular el termino _g(t)_, Prophet ofrece 2 alternativas
+   - *Crecimiento Logístico:* Estos casos corresponden a situaciones en donde se da una saturación que no permite el crecimiento más allá de un límite determinado. Se aplica una sigmoide pero un poco cambiada.
+
+     - C: Capacidad de Carga. Define la carga máxima que puede llegar a tomar la curva. Nótese que este valor puede no ser fijo y depender de otro parámetro externo C(t). <br>
+     - k: Es la tasa de crecimiento. Define qué tan rápido pasará de 0 a la capacidad de carga o viceversa.<br>
+     - m: Es un parámetro de compensación. Define el punto de inflexión de la función, es decir, cuando cambia de concavidad. <br>
 
 <p align="center">
   <img src=https://user-images.githubusercontent.com/63267942/153085439-b7207149-8b2d-4f00-a7fb-b2c69e2cb5b8.png />
@@ -26,32 +32,43 @@ Prophet intenta ajustar las funciones (lineales o no) a los datos dando más o m
 <p align="center">
   <img src=https://miro.medium.com/max/724/1*Y7bCUzRTaKsdPc1JGgdb2A.png />
 </p>
+
 <ul>
   <ul>
     <li>
-      C: Capacidad de Carga. Define la carga máxima que puede llegar a tomar la curva. Nótese que este valor puede no ser fijo y depender de otro parámetro externo C(t). <br>
-Por ejemplo: Al aumentar la cantidad de dispositivos con capacidad de conexión, aumentará la cantidad de conexiones en una red.<br>
+      <i>Modelo Lineal por Partes:</i> Para pronosticar problemas que no muestran un crecimiento saturado, existe una tasa de crecimiento constante por partes.
     </li>
-    <li>
-      k: Es la tasa de crecimiento. Define qué tan rápido pasará de 0 a la capacidad de carga o viceversa.<br>
-    </li>
-    <li>
-      m: Es un parámetro de compensación. Define el punto de inflexión de la función, es decir, cuando cambia de concavidad. <br>
-    </li>
+    <ul>
+      <li>
+        δ: tiene los ajustes de tarifas
+      </li>
+      <li>
+        k: es la tasa de crecimiento
+      </li>
+      <li>
+        m: es el parámetro de compensación, en estos casos, los puntos de quiebre. Los puede definir el usuario o los puede calcular Prophet.
+      </li>
+    </ul>
+<p align="center">
+  <img src=https://miro.medium.com/max/724/1*vxQNbfVATdzjNUtCm5mNUw.png />
+</p>
+      
+
   </ul>
 </ul>
-  
 
-2) La curva de tendencia g(t) se determina por tramos. Prophet detecta automáticamente los puntos de quiebre, pero tambien los puede determinar el usuario para anticiparse a algún envento.
 
-3) El ajuste estacional h(t) se hace utilizando series de Fourier. Fourier demostró que cualquier función periódica puede formarse a partir de una suma infinita de senos y cosenos.
+
+
+
+2) **Ajuste estacional h(t):** Se hace utilizando series de Fourier. Fourier demostró que cualquier función periódica puede formarse a partir de una suma infinita de senos y cosenos.
 <p align="center">
   <img src=https://user-images.githubusercontent.com/63267942/153087454-c07d69ab-8ef3-4233-891b-a025ad3adac9.png />
 </p>
 
-4) El término h(t) queda definido por el usuario, y son aquellos valores que pueden llegar a alterar la serie temporal. Por ejemplo: La llegada del verano altera las ventas de una heladería, los hechos históricos importantes, los fin de semana largos en la venta de vuelos, etc.
+3) **Término h(t):** Queda definido por el usuario, y son aquellos valores que pueden llegar a alterar la serie temporal. Por ejemplo: La llegada del verano altera las ventas de una heladería, los hechos históricos importantes, los fin de semana largos en la venta de vuelos, etc.
 
-5) El término ε<sub>t</sub> se estima por diferencia
+4) **Error ε<sub>t</sub>**: Se estima por diferencia
 
 
 
