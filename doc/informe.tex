@@ -4,7 +4,7 @@
 \usepackage{verbatim}
 \usepackage{amsmath}
 %opening
-\title{Predicción de Precios de Criptomonedas Utilizando Series de Tiempo}
+\title{Predicción de Precios de Criptomonedas con ARIMA y Prophet}
 \author{}
 
 \begin{document}
@@ -509,7 +509,7 @@ Por lo tanto, este modelo lineal general admite tres representaciones:
 
  \item \textit{Finita:}
 
- \begin{equation}
+ \begin{equation}\label{eqn:completa}
  \begin{split}
  &(1-\phi_1B - \phi_2B^2 - ... - \phi_pB^p) Y_t = (1-\theta_1B - \theta_2B^2 - ... - \theta_qB^q) w_t \\
  &Y_t = \phi_1Y_{t-1} + \phi_2Y_{t-2} + ... + \phi_pY_{t-p} + w_t -\theta_1w_{t-1} - \theta_2w_{t-2} - ... - \theta_qw_{t-q}
@@ -519,7 +519,152 @@ Por lo tanto, este modelo lineal general admite tres representaciones:
  Este modelo se denomina \textit{Autorregresivo de Medias Móviles} de orden $(p,q)$. En él, el valor de $Y_t$ depende del pasado de $Y$ hasta el momento $t-p$ de la innovación contemporánea y su pasado hasta el momento $t-q$.
 \end{itemize}
 
+\subsection{Procesos Autoregresivos de Medias Móviles}
 
+Como hemos señalado anteriormente, la ecuación \ref{eqn:completa} es una aproximación finita al modelo lineal general tanto en su forma $AR(\infty)$ como $MA(\infty)$.
+
+De hecho, si es estacionario su representación $MA(\infty)$ es
+
+\begin{equation}
+Y_t = \frac{\theta_q(B)}{\phi_p(B)} w_t \quad \to \quad Y_t = \psi_\infty(B) w_t \quad \to \quad Y_t = w_t + \psi_1 w_{t-1} + \psi_2 w_{t-2} + ...
+\end{equation}
+
+y si es invertible, su representación $AR(\infty)$ es
+
+\begin{equation}
+\frac{\phi_p(B)}{\theta_q(B)} Y_t = w_t \quad \to \quad \pi_\infty(B) Y_t = w_t \quad \to \quad Y_t = w_t + \pi_1 Y_{t-1} + \pi_2 Y_{t-2} + ...
+\end{equation}
+
+\textbf{Teorema de estacionariedad.} Un proceso autoregresivo de medias móviles finito $ARMA(p,q)$ es estacionario sí y solo sí el módulo de las raíces del polinomio autorregresivo $\phi(B)$ está fuera del círculo unidad.
+
+Las condiciones de estacionariedad del modelo $ARMA(p,q)$ vienen impuestas por la parte autorregresiva, dado que la parte de medias móviles finita siempre es estacionaria.
+
+Para comprobar si el modelo $ARMA(p,q)$ es no anticipante e invertible , se estudia su representación autorregresiva general.
+
+\textbf{Teorema de invertibilidad.} Un proceso autorregresivo de medias móviles finito $ARMA(p,q)$ es invertible sí y solo sí el módulo de las raíces del polinomio de medias móviles $\theta_p(B)$ está fuera del círculo unidad.
+
+Las condiciones de invertibilidad del modelo $ARMA(p,q)$ vienen impuestas por la parte de medias móviles, dado que la parte autorregresiva finita siempre es invertible porque está directamente escrita en forma autorregresiva
+
+El modelo $ARMA(p,q)$ tiene media cero, varianza constante y finita y una función de autocovarianzas infinita. La función de autocorrelación es infinita decreciendo rápidamente hacia cero pero sin truncarse.
+
+\subsubsection{$ARMA(1,1)$}
+
+En este modelo, $Y_t$ se determina en función de su pasado hasta el primer retardo, la innovación contemporánea y el pasado de la innovación hasta el retardo 1:
+
+\begin{equation}
+Y_t = \phi Y_{t-1} + w_t - \theta w_{t-1} \qquad w_t ~ RB (0,\sigma^2) \qquad t=1,2,...
+\end{equation}
+
+
+La memoria de este proceso es larga debido a que presenta la estructura autorregresiva. Es decir, una perturbación $w_t$ ingresa al sistema afectando a $Y_t$ y, a través de él, al futuro. Sin embargo, por su estructura de medias móviles, la perturbación $w_t$ afecta directamente a $Y_t$ $Y_{t-1}$.
+
+ARREGLAR GRAFICO
+\begin{equation*}
+\begin{split}
+& ... \quad \to \quad Y_{t-2} \quad \to \quad Y_{t-1} \quad \to \quad Y_{t} \quad \to \quad Y_{t+1} \quad \to \quad Y_{t+2} \to ... \\
+& \quad \quad \quad \quad \quad \uparrow \quad \quad \nearrow \quad \quad \uparrow \quad \quad \nearrow \quad \quad \uparrow \quad \quad \nearrow \quad \quad \uparrow \quad \quad \nearrow \quad \quad \uparrow \quad \quad \nearrow \\
+& \quad ...\quad w_{t-2} \quad w_{t-1} \quad w_{t} \quad w_{t+1} \quad w_{t+2}
+\end{split}
+\end{equation*}
+
+Por el teorema de estacionariedad, es necesario y suficiente comprobar que las raíces del polinomio autorregresivo estén fuera del círculo unidad:
+
+\begin{equation*}
+\phi_1(B) = 1 - \phi B = 0 \quad \to \quad B = \frac{1}{\phi} \quad \to \quad |B| = |\frac{1}{\phi}| \quad \to \quad |\phi| < 1
+\end{equation*}
+
+Por el teorema de invertibilidad, es necesario y suficiente comprobar que las raíces del polinomio de medias móviles estén fuera del círculo unidad:
+
+\begin{equation*}
+\theta_1(B) = 1 - \theta B = 0 \quad \to \quad B = \frac{1}{\theta} \quad \to \quad |B| = |\frac{1}{\theta}| \quad \to \quad |\theta| < 1
+\end{equation*}
+
+La media de este proceso es:
+
+\begin{equation*}
+\begin{split}
+E(Y_t) = E(\phi Y_{t-1} + w_t - \theta w_{t-1}) &= \phi E(Y_t) \\
+\to \quad (1-\phi)E(Y_t) &= 0 \\
+\to \quad E(Y_t) &= 0
+\end{split}
+\end{equation*}
+
+Para determinar la función de covarianzas, tenemos en cuenta que:
+
+\begin{equation*}
+E(Y_{t-1}w_{t-1}) = E[(\phi Y_{t-2} + w_{t-1} - \theta w_{t-2})w_{t-1}] = E(w_{t-1})^2 = \sigma^2
+\end{equation*}
+
+
+En tanto, dicha función es:
+
+\begin{equation*}
+\begin{split}
+\gamma_0 &= E(Y_t - E(Y_t))^2 = E(Y_t)^2 = E(\phi Y_{t-1} + w_t - \theta w_{t-1})^2 \\
+&= \phi ^2 E(Y_{t-1})^2 + E(w_t)^2 + \theta^2 E(w_{t-1})^2 + 2\phi E(Y_{t-1}w_t) - 2\phi \theta E(Y_{t-1}w_{t-1}) - 2\theta E(w_t w_{t-1}) \\
+&= \phi^2 \gamma_0 + \sigma^2 + \theta^2 \sigma^2 - 2\phi \theta \sigma^2 \\
+&= \phi^2 \gamma_0 + (1+\theta^2 - 2\phi\theta) \sigma^2 \\
+\to \quad \gamma_0 &= \frac{(1+\theta^2 -2\phi \theta)\sigma^2}{1-\phi^2}\\
+\\ %gamma 1 ###################################################
+\gamma_1 &= E(Y_t - E(Y_t))(Y_{t-1} - E(Y_{t-1})) = E(Y_tY_{t-1}) \\
+&= E[(\phi Y_{t-1} + w_t - \theta w_{t-1})Y_{t-1}] \\
+&= \phi E(Y_{t-1})^2 +E(Y_{t-1}w_t) - \theta E(Y_{t-1} w_{t-1}) \\
+&= \phi \gamma_0 - \theta \sigma^2 \\
+\\ %gamma 2 ##################################################
+\gamma_2 &= E(Y_t - E(Y_t))(Y_{t-2} - E(Y_{t-2})) = E(Y_tY_{t-2}) \\
+&= E[(\phi Y_{t-1} + w_t - \theta w_{t-1})Y_{t-2}] \\
+&= \phi E(Y_{t-1}Y_{t-2}) +E(Y_{t-2}w_t) - \theta E(Y_{t-2} w_{t-1}) \\
+&= \phi \gamma_1 \\
+\end{split}
+\end{equation*}
+
+Es decir que la función de autocovarianzas para un $ARMA(1,1)$ es:
+
+\begin{equation*}
+\gamma_k= \left\{ \begin{array}{lcc}
+             \frac{(1+\theta^2 -2\phi\theta) \sigma^2}{1-\phi^2} , \quad k=0 \\
+             \phi \gamma_0 - \theta \sigma^2 , \quad k=1 \\
+             \phi \gamma_{k-1} , \quad k>1
+             \end{array}
+   \right.
+\end{equation*}
+
+
+La función $\gamma_k$ nos brinda un formalismo a lo expresado previamente. La autocovarianza de orden 0 cuenta con términos provenientes de la parte autorregresiva y de medias móviles. De forma similar, en la autocovarianza de orden 1 tenemos términos de $AR(1)$ $MA(1)$. Finalmente, órdenes superiores dependen exclusivamente de la autorregresión.
+
+La función de autocorrelación de un $ARMA(1,1)$ es:
+
+\begin{equation*}
+\rho_k= \left\{ \begin{array}{lcc}
+             \phi - \frac{\theta \sigma^2}{\gamma_0} , \quad k=1 \\
+             \phi \rho_{k-1}
+             \end{array}
+   \right.
+\end{equation*}
+
+AGREGAR UNA DESCRIPCIÓN A AUTOCORRELACION
+
+\subsubsection{$ARMA(p,q)$}
+
+Los resultados obtenidos para $ARMA(1,1)$ son generalizables para este modelo. Observemos: para los primeros $q$ coeficientes $\rho_1, ..., \rho_q$ dependerán de los parámetros autorregresivos y de medias móviles, mientras que los siguientes no dependerán del parámetro de medias móviles. En consecuencia, la función de autocorrelación decrecerá rápidamente a cero.
+
+Es posible modificar $ARMA(p,q)$ de tal forma que su media no sea nula añadiendo una constante al proceso estacionario:
+
+\begin{equation}
+Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2} + ... + \phi_pY_{t-p} + w_t -\theta_1w_{t-1} - \theta_2w_{t-2} - ... - \theta_qw_{t-q} \qquad w_t ~ RB(0,\sigma^2)
+\end{equation}
+
+La única diferencia respecto al modelo sin la constante $\delta$ es que su media no es cero:
+
+(CHEQUEAR FLECHA)
+\begin{equation*}
+\begin{split}
+E(Y_t) &= E(\delta + \phi_1 Y_{t-1} +...+ \phi_p Y_{t-p} + w_t + \theta_1 w_{t-1} + ... + \theta_q w_{t-q})\\
+& = \delta + \phi_1 E(Y_t) + ... + \phi_p E(Y_{t})\\
+\to \quad \delta &= (1-\phi_1-...-\phi_p) E(Y_t) \\
+E(Y_t) & = \frac{\delta}{(1-\phi_1-...-\phi_p)}
+\end{split}
+\end{equation*}
 
 \begin{comment}
 # Modelo ARMA
