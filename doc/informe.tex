@@ -715,4 +715,167 @@ Luego de esta introducción podemos definir matemáticamente a los modelos ARMA.
 
 \section{Modelos no estacionarios}
 
+Lo visto hasta el momento responde a la estacionariedad en covarianza, es decir, media y varianza constantes y finitas junto a autocovarianzas independientes del tiempo. Sin embargo, en series económicas este comportamiento no se replica.
+
+En este caso, quitaremos el supuesto de que tenemos una serie estacionaria en covarianza y mediante algún método transformaremos la serie para estabilizar la covarianza.
+
+\subsection{Transformación de la varianza}
+
+Suponemos que la varianza del proceso la podemos expresar mediante una función:
+
+\begin{equation}
+V(Y_t) = k f(\mu_t)
+\end{equation}
+
+donde $k$ es una constante positiva y $f$ una función conocida. Por otro lado, buscaremos una función $h$ que transforme la serie de tal forma que $h(Y_t)$ tenga varianza constante.
+
+Desarrollaremos la serie de Taylor de primer orden alrededor de $\mu_t$:
+
+\begin{equation}
+h(Y_t) \approx h(\mu_t) + (Y_t - \mu_t) h'(\mu_t)
+\end{equation}
+
+La varianza de la transformación es aproximable según:
+
+\begin{equation}
+V[h(Y_t)] \approx V[h(\mu_t) + (Y_t - \mu_t)h'(\mu_t)] = V(Y_t) [h'(\mu_t)]^2  = k f(\mu_t) [h'(\mu_t)]^2
+\end{equation}
+
+Por lo tanto, para que la varianza de la transformación sea constante, debe cumplirse que:
+
+\begin{equation}
+h'(\mu_t) = \frac{1}{\sqrt{f(\mu_t)}}
+\end{equation}
+
+CONTINUAR
+
+\subsection{Modelos ARIMA(p,d,q)}
+
+Supongamos el modelo $ARMA(p,q)$:
+
+\begin{equation*}
+\Phi_p (B) Y_t = \Theta_q (B) w_t
+\end{equation*}
+
+donde el polinomio $AR$ se puede factorizar en función de sus p raíces $B_1,B_2,...B_p$:
+
+\begin{equation*}
+\Phi_p (B) = (1-B_1^{-1}B)(1-B_2^{-1}B)...(1-B_p^{-1}B)
+\end{equation*}
+
+Si suponemos que $p-1$ raíces son estacionarias (con módulo fuera del círculo unidad) y una de ellas es unitaria, $B_i = 1$, entonces el polinomio $AR$ se puede reescribir como sigue:
+
+\begin{center}
+$\Phi_p (B) = (1-B_1^{-1}B)(1-B_2^{-1}B)...(1-B_p^{-1}B) = \varphi_{p-1} (B) (1-(-1)^{-1}B)$
+
+$\Phi_p(B) = \varphi_{p-1} (B) (1-B)$
+\end{center}
+
+donde el polinomio $\varphi_{p-1}(B)$ es el producto de los $p-1$ polinomios de orden 1 asociados a las raíces $B_j$ asociadas al círculo unidad. Necesariamente se aclara que es un polinomio estacionario.
+
+Sustituyendo en el modelo $ARMA(p,q)$ obtenemos:
+
+\begin{equation}\label{eqn:arima}
+\begin{split}
+\varphi_{p-1}(B) (1-B) Y_t &= \Theta_q (B) w_t \\
+\varphi_{p-1}(B) \Delta Y_t &= \Theta_q (B) w_t
+\end{split}
+\end{equation}
+
+Nótese que $\Delta$ es el polinomio que recoge la raíz unitaria.
+
+La ecuación \ref{eqn:arima} representa a un modelo con un comportamiento no estacionario ya que contiene una raíz unitaria. Un proceso $Y_t$ con estas características se le denomina \textit{proceso integrado de orden 1  }
+
+El proceso $AR$ puede contener más de una raíz unitaria, por lo que se puede generalizar el modelo \ref{eqn:arima} como:
+
+\begin{equation}
+\varphi_{p-d} (B) \Delta^d Y_t = \Theta_q (B) w_t
+\end{equation}
+
+Así mismo, el polinomio $\varphi_{p-d}(B)$ es estacionario porque sus $p-d$ raíces tienen módulo fuera del círculo unidad, y el polinomio $\Delta^d$, de orden $d$, contiene las $d$ raíces unitarias no estacionarias.
+
+Este proceso $Y_t$ con estas características se denomina \textit{proceso integrado de orden d} y se denota por $Y_t \sim I(d)$.
+
+Formalmente, un proceso $Y_t$ es integrado de orden $d$, $Y_t \sim I(d)$, si $Y_t$ no es estacionario, pero su diferencia de orden $d$, $\Delta^d Y_t$, sigue siendo un proceso $ARMA(p-d,q)$ estacionario e invertible.
+
+
+
+
+
+
+
+\section{Prophet}
+
+Este modelo surge por las limitaciones que presentan los modelos SARIMAX, como estacionariedad y valores igualmente espaciados en el tiempo (siendo que esto puede variar mucho en la realidad).
+
+La idea de este algoritmo es plantear a la serie temporal como la suma de 4 componentes:
+
+\begin{equation}
+y(t) = g(t) + s(t) + h(t) + \epsilon_t
+\end{equation}
+
+donde:
+
+\begin{itemize}
+ \item $g(t)$. Describe la tendencia lineal o de crecimiento logístico de largo plazo, creando una función definida por partes en los puntos de cambio (simplificando la predicción).
+
+ Los puntos de cambio son momentos en los datos donde los datos cambian de dirección.
+
+  \item $s(t)$. Función que define la estacionalidad (anual, mensual, semanal, etc.)
+
+  \item $h(t)$. Hechos concretos que pueden alterar los valores de la serie (vacaciones, feriados, paros, etc.), a definirse por el usuario
+
+  \item $\epsilon_t$. Término de error.
+\end{itemize}
+
+
+Prophet intenta ajustar las funciones (lineales o no) a los datos dando más o menos importancia a los distintos efectos, es decir, un modelo muy parametrizable:
+
+\begin{enumerate}
+ \item \textbf{Tendencia lineal $g(t)$.} Para calcular el termino $g(t)$, Prophet ofrece 2 alternativas.
+
+   \begin{itemize}
+    \item Crecimiento Logístico. Estos casos corresponden a situaciones en donde se da una saturación que no permite el crecimiento más allá de un límite determinado. Se aplica una sigmoide pero un poco cambiada.
+
+     - C: Capacidad de Carga. Define la carga máxima que puede llegar a tomar la curva. Nótese que este valor puede no ser fijo y depender de otro parámetro externo C(t).
+
+     - k: Es la tasa de crecimiento. Define qué tan rápido pasará de 0 a la capacidad de carga o viceversa.
+
+     - m: Es un parámetro de compensación. Define el punto de inflexión de la función, es decir, cuando cambia de concavidad.
+
+     \begin{equation}
+      g(t) = \frac{C}{1+e^{-k(t-m)}}
+     \end{equation}
+
+
+  \item Modelo Lineal por Partes: Para pronosticar problemas que no muestran un crecimiento saturado, existe una tasa de crecimiento constante por partes.
+    $\delta$: tiene los ajustes de tarifas
+
+    k: es la tasa de crecimiento
+
+    m: es el parámetro de compensación, en estos casos, los puntos de quiebre. Los puede definir el usuario o los puede calcular Prophet.
+
+    \begin{equation}
+     g(t) = (k+a(t)^T\delta)t + (m+a(t)^T\gamma)
+    \end{equation}
+
+  \end{itemize}
+
+ \item \textbf{Ajuste estacional $s(t)$.} Se hace utilizando series de Fourier. Fourier demostró que cualquier función periódica puede formarse a partir de una suma infinita de senos y cosenos.
+
+ \begin{equation}
+  s(t) = \Sigma_{n=1}^N [a_n cos(\frac{2n\pi}{T}t) + b_n sen (\frac{2n\pi}{T}t) ]
+ \end{equation}
+
+
+ \item \textbf{Término h(t).} Queda definido por el usuario, y son aquellos valores que pueden llegar a alterar la serie temporal. Por ejemplo: La llegada del verano altera las ventas de una heladería, los hechos históricos importantes, los fin de semana largos en la venta de vuelos, etc.
+
+ \item \textbf{Error $\epsilon_t$.} Se estima por diferencia.
+
+\end{enumerate}
+
+
+
+
+
 \end{document}
