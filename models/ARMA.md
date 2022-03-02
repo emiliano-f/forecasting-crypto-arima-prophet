@@ -37,7 +37,7 @@ El nombre ARMA es la abreviatura de Modelos Autorregresivos de Media Móvil. Pro
 <br>     
 <br>     
 <br>    
-Luego de esta introducción podemos definir matemáticamente a los modelos ARMA. El modelo general de series temporales autorregresivo con media móvil de _p_ términos autorregresivos y _q_ términos de media móvil se expresa como:
+Luego de esta introducción podemos definir matemáticamente a los modelos ARMA. El modelo general de series temporales autorregresivo con media móvil de <i><b>p</b></i> términos autorregresivos y <i><b>q</b></i> términos de media móvil se expresa como:
 <p align="center">
   <img src=https://economipedia.com/wp-content/uploads/Modelo-ARMA.jpg />
 </p>
