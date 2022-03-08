@@ -61,7 +61,8 @@ plt.plot(df[to_row:]['Adj Close'],"blue",label="Test Data")
 plt.legend()
 plt.show()
 
-
+predictions_df = pd.DataFrame(model_predictions, columns=['Adj Close'])
+df[to_row:]['Adj Close'].corr(predictions_df.loc[0:len(model_predictions),'Adj Close'])
 
 
 clear()
