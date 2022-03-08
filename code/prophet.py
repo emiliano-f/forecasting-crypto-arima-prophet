@@ -8,7 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 import os
 
-df = pd.read_csv('Data.csv')
+df = pd.read_csv('../data/data.csv')
 df = df[['Date','Adj Close']]
 
 df.columns = ["ds","y"]

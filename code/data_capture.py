@@ -2,34 +2,40 @@
 time-series-forecasting-crypto
 """
 import pandas as pd
-import pandas_datareader as web
+import yfinance as yf
 
 # It will allow us to define start and end dates for our data pull
 import datetime
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+def distribute(data):
+    btc = data['BTC-USD']['Adj Close']
+    eth = data['ETH-USD']['Adj Close']
+    ada = data['ADA-USD']['Adj Close']
+    return (btc,eth,ada)
 
-# ARIMA, SARIMAX models
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from statsmodels.tsa.arima.model import ARIMA
+def save(coins, txt=''):
+    names = ["btc", "eth", "ada"]
+    path = "../data/"    
+    for _ in range(len(coins)):
+        coins[_].to_csv(path + names[_] + "_" + txt + ".csv")
+    
+# Daily
+data = yf.download("BTC-USD ETH-USD ADA-USD", start="2017-11-09", group_by='tickers')
+coins = distribute(data)
+save(coins, "1d")
 
-# Relax the display limits on columns and rows
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
+# 30min
+data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='30m', group_by='tickers')
+coins = distribute(data)
+save(coins, "30m")
 
+# 15min
+data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='15m', group_by='tickers')
+coins = distribute(data)
+save(coins, "15m")
 
-btc = web.get_data_yahoo(['BTC-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10), interval="1m")
-eth = web.get_data_yahoo(['ETH-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10))
-ada = web.get_data_yahoo(['ADA-USD'], start=datetime.datetime(2020, 1, 1), end=datetime.datetime(2022, 1, 10))
+# 5min
+data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='5m', group_by='tickers')
+coins = distribute(data)
+save(coins, "5m")
 
-# Only closing price
-btc = btc['Close']
-eth = eth['Close']
-ada = ada['Close']
-
-# Saving
-path = "../data/"
-btc.to_csv(path + "btc.csv")
-eth.to_csv(path + "eth.csv")
-ada.to_csv(path + "ada.csv")

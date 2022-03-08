@@ -8,7 +8,7 @@ import os
 from pandas import datetime
 clear = lambda: os.system('clear')
 clear()
-df = yf.download("BTC-USD")
+df = pd.read_csv('../data/data.csv')
 
 plt.plot(df.index, df['Adj Close'])
 #plt.show()
@@ -34,9 +34,9 @@ for i in range(0,n_test_obser):
     model_fit = model.fit()
     output = model_fit.forecast()
     yhat = output[0]
-    print(yhat)
+    #print(yhat)
     model_predictions.append(yhat)
-    print(model_predictions)
+    #print(model_predictions)
     actual_test_value = test_data[i]
     training_data.append(actual_test_value)
 
@@ -67,7 +67,6 @@ test_df = pd.DataFrame(test_data, columns=['Adj Close'])
 test_df['Adj Close'].corr(predictions_df.loc[0:len(predictions_df),'Adj Close'])
 
 
-clear()
 print(training_data)
 
 
