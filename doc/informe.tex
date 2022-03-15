@@ -1,22 +1,45 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[breaklinks=true]{hyperref}
 \usepackage{verbatim}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\RequirePackage{fontawesome}
 %opening
-\title{Predicción de Precios de Criptomonedas con ARIMA y Prophet}
-\author{}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+\centering
+%{\includegraphics[width=0.2\textwidth]{logo}\par}
+%\vspace{1cm}
+{\bfseries\LARGE Universidad Nacional de Cuyo \par}
+\vspace{1cm}
+{\scshape\Large Facultad de Ingeniería \par}
+\vspace{3cm}
+{\scshape\Huge Predicción de Precios de Criptomonedas con ARIMA y Prophet \par}
+\vspace{3cm}
+{\itshape\Large Proyecto Final\\Inteligencia Artificial I \par}
+\vfill
+{\Large Autor: \par}
+{\Large MOLINA, Mauro \par}
+{\Large FLORES, Daniel Emiliano \par}
+\vfill
+{\Large Marzo 2022 \par}
+\end{titlepage}
+
+\newpage
 
 \begin{abstract}
 
 \end{abstract}
 
+\newpage
+
 \tableofcontents
 
+\newpage
 
 \section{Introducción}
 
@@ -227,11 +250,9 @@ Estos suelen comenzar en $k=1$ puesto que un $k=0$ en la Ecuación (8) siempre e
   \item Si contiene observaciones alternantes por encima y debajo de la media, el correlograma presenta valores decrecientes que alternan su signo.
  \end{enumerate}
 
- \item Si la serie contiene una tendencia, los valores de $r_k$ no decrecerán a cero rápidamente. Esto se debe a que un valor observado tiene sucesivos valores que estarán por encima (o debajo) de la media. Este tipo de comportamiento nos da poca información.
+  \item Si la serie contiene una tendencia, los valores de $r_k$ no decrecerán a cero rápidamente. Esto se debe a que un valor observado tiene sucesivos valores que estarán por encima (o debajo) de la media. Este tipo de comportamiento nos da poca información.
 
- \item Si una serie presenta algún tipo de ciclo, el correlograma también presentará una oscilación
-a la misma frecuencia. En las series con un comportamiento cı́clico permanente, el correlograma da
-de nuevo poca información porque lo domina el comportamiento cı́clico presente en los datos.
+  \item Si una serie presenta algún tipo de ciclo, el correlograma también presentará una oscilación a la misma frecuencia. En las series con un comportamiento cı́clico permanente, el correlograma da de nuevo poca información porque lo domina el comportamiento cı́clico presente en los datos.
 \end{enumerate}
 
 
@@ -308,7 +329,7 @@ en otras palabras, si la función de distribución de cualquier conjunto finito 
 Finalmente, decimos que un proceso estocástico estacionario en covarianza está caracterizado si se conoce:
 
 \begin{center}
- $\mu$, $V(Y_t)$, $\gamma_k$, k=0,\pm 1, \pm 2,...
+$\mu, \quad V(Y_t), \quad \gamma_k, \quad k=0$,\pm 1, \pm 2,...
 \end{center}
 
 Si bien las series económicas no presentan comportamientos estacionarios, particularmente las series temporales que reflejan el precio de una criptomoneda, se procederá a proponer modelos que para procesos estacionarios. A partir de estos se puede modelar para un proceso no estacionario.
@@ -396,28 +417,6 @@ EJEMPLO DE RUIDO BLANCO
 
 
 
- Métodos de las Series Temporales
-
- 1) \_**Métodos simples:**\_ Estos métodos son muy simples y para nuestro objetivo carecen de aplicación <br>
- 1- \_Media:\_ La idea aquí es calcular una media de las observaciones anteriores, el cual será la predicción.
- 2- \_Naive:\_ La idea de este método es replicar la predicción anterior.
- 3- \_Naive Estacional\_: La lógica de este método es tomar un intervalo de la serie y replicarlo en el tiempo.
-
-2) \_**Método de suavizado exponencial:**\_ El objetivo de este método es generar un promedio ponderado de las observaciones pasadas, es decir, las observaciones mas recientes tienen más peso.
-
-3) \_**Método de Holt:**\_ Este método es una variante del anterior, el cual incluye un parámetro para capturar la tendencia de la serie.
-
-4) \_**Método de Holt-Winters:**\_ Este es una variante del método de Holt, la cual permite capturar la estacionalidad de la serie
-
-5) \_**Método ARIMA:**\_ Este método surge de combinar los métodos autoregresivos y de medias móviles.
-
-Pero, ¿Cómo medimos la calidad de una predicción?
-Bueno, para determinar la calidad, nos apoyamos en una **función de autocorrelación**. Esta función nos indica qué tan relacionados están 2 valores identicos de 2 funciones diferentes (la función predecida y la función real)
-
-
-
-
-
 
 
 
@@ -435,7 +434,7 @@ Así, un modelo teórico capaz de describir un comportamiento de una serie tempo
 Y_t = f(Y_{t-1},Y_{t-2},...) + w_t, \quad t=1,2,...
 \end{equation}
 
-El proceso estocástico puede responder a un proceso de Gauss (CITA REQUERIDA), por lo que $Y_t$ puede expresarse como una combinación lineal de sus valores pasados infinitos más una innovación:
+El proceso estocástico puede responder a un proceso de Gauss, por lo que $Y_t$ puede expresarse como una combinación lineal de sus valores pasados infinitos más una innovación:
 
 \begin{equation}\label{eqn:ar}
 Y_t = \pi_1 Y_{t-1} + \pi_2 Y_{t-2} + ... + w_t \quad t=1,2,...
@@ -719,6 +718,7 @@ Lo visto hasta el momento responde a la estacionariedad en covarianza, es decir,
 
 En este caso, quitaremos el supuesto de que tenemos una serie estacionaria en covarianza y mediante algún método transformaremos la serie para estabilizar la covarianza.
 
+\begin{comment}
 \subsection{Transformación de la varianza}
 
 Suponemos que la varianza del proceso la podemos expresar mediante una función:
@@ -748,6 +748,7 @@ h'(\mu_t) = \frac{1}{\sqrt{f(\mu_t)}}
 \end{equation}
 
 CONTINUAR
+\end{comment}
 
 \subsection{Modelos ARIMA(p,d,q)}
 
@@ -874,8 +875,60 @@ Prophet intenta ajustar las funciones (lineales o no) a los datos dando más o m
 
 \end{enumerate}
 
+\section{Análisis de Resultados}
 
+\section{Conclusión}
 
+%\renewcommand\refname{Referencias}
+\begin{thebibliography}{X}
 
+\bibitem{Hyn} \textsc{Hyndman, R.J.} y \textsc{Athanasopoulos, G.},
+\textit{Forecasting: principles and practice}, 3ra edición, OTexts: Melbourne, Australia. 2021.
+
+\bibitem{Shu} \textsc{Shumway, R. H.} y \textsc{Stoffer, D. S.}, \textit{Time series analysis and its applications: With R examples}. Springer: New York. 2006.
+
+\bibitem{Por} \textsc{Porro Vargas, M. A.}, \textit{Modelos de análisis de criptomonedas basado en aprendizaje automático y series temporales}. Universidad Central de Venezuela: Caracas. 2018.
+
+\bibitem{Gon} \textsc{González Casimiro, M. P.}, \textit{Análisis de series temporales: Modelos ARIMA}. Sarriko-On: País Vasco. 2009.
+
+\bibitem{Ask} \textsc{Ask Python}, \textit{Crypto Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.askpython.com/python/examples/crypto-price-prediction}{artículo \faExternalLink.}
+
+\bibitem{Ben} \textsc{Benedict, N.}, \textit{Ethereum Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://medium.com/bitgrit-data-science-publication/ethereum-price-prediction-with-python-3b3805e6e512}{artículo \faExternalLink.}
+
+\bibitem{Ler} \textsc{Lertlumprasert, C.}, \textit{CryptoCurrency Price Prediction with Python}. 2018. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/demystifying-cryptocurrency-price-prediction-5fb2b504a110}{artículo \faExternalLink.}
+
+\bibitem{Pie} \textsc{Pierre, S.}, \textit{A Guide to Time Series Forecasting in Python}. 2021. Recuperado el 04-01-2022 de \href{https://builtin.com/data-science/time-series-forecasting-python}{artículo \faExternalLink.}
+
+\bibitem{Gri} \textsc{Grigsby, J.}, \textit{Multivariate Time Series Forecasting with Transformers}. 2021. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/multivariate-time-series-forecasting-with-transformers-384dc6ce989b}{artículo \faExternalLink.}
+
+\bibitem{Lhe} \textsc{Lhessani, S.}, \textit{How I Tripled My Return on Bitcoin Using Mathematics, Algorithms, and Python}. 2021. Recuperado el 04-01-2022 de \href{https://levelup.gitconnected.com/how-i-tripled-my-return-on-bitcoin-using-mathematics-algorithms-and-python-347edd9b5625}{artículo \faExternalLink.}
+
+\bibitem{Kha} \textsc{Kharwal, A.}, \textit{Cryptocurrency Price Prediction with Machine Learning}. 2021. Recuperado el 04-01-2022 de \href{https://thecleverprogrammer.com/2021/12/27/cryptocurrency-price-prediction-with-machine-learning/}{artículo \faExternalLink.}
+
+\bibitem{Kum} \textsc{Kumar, S.}, \textit{Cryptocurrency (Ethereum) Price Prediction Using Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.godatainsights.com/post/cryptocurrency-ethereum-price-prediction-using-python}{artículo \faExternalLink.}
+
+\bibitem{Vas} \textsc{Vasulka, M.}, \textit{Stock and cryptocurrency price prediction with python Prophet}. 2021. Recuperado el 07-01-2022 de \href{https://tcoil.info/stock-and-cryptocurrency-price-prediction-with-python-prophet/}{artículo \faExternalLink.}
+
+\bibitem{Pei} \textsc{Peixero, M.}, \textit{The Complete Guide to Time Series Analysis and Forecasting}. 2019. Recuperado el 08-01-2022 de \href{https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775}{artículo \faExternalLink.}
+
+\bibitem{Rod1} \textsc{Rodó, P}, \textit{Modelo AR(1)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-ar1.html}{artículo \faExternalLink.}
+
+\bibitem{Rod2} \textsc{Rodó, P.}, \textit{Modelo autorregresivo (AR)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-autorregresivo-ar.html}{artículo \faExternalLink.}
+
+\bibitem{Rod3} \textsc{Rodó, P.}, \textit{Modelo ARMA}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-arma.html}{artículo \faExternalLink.}
+
+\bibitem{Wik} \textsc{Wikipedia}, \textit{Media Móvil}. 2009. Recuperado el 11-01-2022 de \href{https://es.wikipedia.org/wiki/Media_movil#Media_movil_simple}{artículo \faExternalLink.}
+
+\bibitem{Sae} \textsc{Saenz, F.}, \textit{Medias móvil simple, exponencial y ponderada: formulas y ejemplos}. 2020. Recuperado el 11-01-2022 de \href{https://www.rankia.cl/blog/analisis-ipsa/2039072-medias-movil-simple-exponencial-ponderada-formulas-ejemplos}{artículo \faExternalLink.}
+
+\bibitem{Lop} \textsc{Lopez Briega, R. E.}, \textit{Series de tiempo con Python}. 2016. Recuperado el 13-01-2022 de \href{https://relopezbriega.github.io/blog/2016/09/26/series-de-tiempo-con-python/}{artículo \faExternalLink.}
+
+\bibitem{Ich} \textsc{Ichi-Pro}, \textit{Análisis de series de tiempo con Facebook Prophet: cómo funciona y cómo usarlo}. 2021. Recuperado el 08-02-2022 de \href{https://ichi.pro/es/analisis-de-series-de-tiempo-con-facebook-prophet-como-funciona-y-como-usarlo-265389504990778}{artículo \faExternalLink.}
+
+\bibitem{LopS} \textsc{Lopez Saez, J. I.}, \textit{Análisis de Series de Tiempo}. 2018. Recuperado el 08-02-2022 de \href{https://ri.itba.edu.ar/bitstream/handle/123456789/1230/TFI - Jose_ Ignacio Lo_pez Sa_ez.pdf?sequence=1&isAllowed=y}{artículo \faExternalLink.}
+
+\bibitem{Sag} \textsc{Sagar A.}, \textit{Cryptocurrency Price Prediction Using Deep Learning}. 2019. Recuperado el 12-03-2022 de \href{https://towardsdatascience.com/cryptocurrency-price-prediction-using-deep-learning-70cfca50dd3a}{artículo \faExternalLink.}
+
+\end{thebibliography}
 
 \end{document}
