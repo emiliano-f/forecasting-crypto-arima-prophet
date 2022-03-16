@@ -2,10 +2,14 @@
 import numpy as np
 from statsmodels.tsa.stattools import acf
 
-def forecast_accuracy(forecast, actual
+def forecast_accuracy(forecast, actual,
                       mape = False, me = False, mae = False,
                       mpe = False, rmse = False, corr = False,
-                      acf1 = False, minmax = False):
+                      acf1 = False, minmax = False, smape = False):
+    """
+    forecast: Future
+    actual: Actual
+    """
     values: dict = {}
     if mape:
         _mape = np.mean(np.abs(forecast - actual)/np.abs(actual))  # MAPE
@@ -35,5 +39,7 @@ def forecast_accuracy(forecast, actual
     if acf1:
         _acf1 = acf(fc-test)[1]                      # ACF1
         values['acf1'] = _acf1
-
+    if smape:
+        _smape = 1/actual.size * np.sum(np.abs(forecast - actual) / (np.abs(actual) + np.abs(forecast))*100) #SMAPE Adjusted
+        values['smape'] = _smape
     return values
