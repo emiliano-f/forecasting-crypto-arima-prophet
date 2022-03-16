@@ -25,17 +25,17 @@ coins = distribute(data)
 save(coins, "1d")
 
 # 30min
-data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='30m', group_by='tickers')
+data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-02-09", interval='30m', group_by='tickers')
 coins = distribute(data)
 save(coins, "30m")
 
 # 15min
-data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='15m', group_by='tickers')
-coins = distribute(data)
-save(coins, "15m")
+#data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='15m', group_by='tickers')
+#coins = distribute(data)
+#save(coins, "15m")
 
 # 5min
-data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='5m', group_by='tickers')
-coins = distribute(data)
-save(coins, "5m")
+#data = yf.download("BTC-USD ETH-USD ADA-USD", start="2022-01-09", interval='5m', group_by='tickers')
+#coins = distribute(data)
+#save(coins, "5m")
 
