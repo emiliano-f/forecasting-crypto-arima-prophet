@@ -5,6 +5,8 @@
 \usepackage{verbatim}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{subfigure}
 \RequirePackage{fontawesome}
 %opening
 
@@ -12,8 +14,8 @@
 
 \begin{titlepage}
 \centering
-%{\includegraphics[width=0.2\textwidth]{logo}\par}
-%\vspace{1cm}
+{\includegraphics[width=0.9\textwidth]{fing_uncuyo}\par}
+\vspace{1cm}
 {\bfseries\LARGE Universidad Nacional de Cuyo \par}
 \vspace{1cm}
 {\scshape\Large Facultad de Ingeniería \par}
@@ -22,7 +24,6 @@
 \vspace{3cm}
 {\itshape\Large Proyecto Final\\Inteligencia Artificial I \par}
 \vfill
-{\Large Autor: \par}
 {\Large MOLINA, Mauro \par}
 {\Large FLORES, Daniel Emiliano \par}
 \vfill
@@ -372,7 +373,7 @@ $|\rho_k| \leq 1$, $\forall k$
 La función de autocorrelación de un proceso estocástico estacionario es una función de $k$ que
 recoge el conjunto de los coeficientes de autocorrelación del proceso y se denota por $\rho_k$. La función de autocorrelación se suele representar gráficamente por medio de un correlograma.
 
-El coeficiente de autocorrelación de orden 0 es, por definición, 1. Genera una función simétrica, por lo que un correlograma solo representa valores positivos de $k$. Esta función, además, tiende a cero rápidamente a medida que $k$ tiende a infinito.
+El coeficiente de autocorrelación de orden 0 es, por definición, 1. Genera una función simétrica, por lo que un correlograma solo representa valores positivos de $k$. Esta función, además, tiende a cero rápidamente a medida que $k$ tiende a infinito. Ésta última afirmación es correcta cuando tenemos un proceso estocástico estacionario, condición que se buscará y se hará énfasis en el análisis de resultados.
 
 De estas premisas, al observar un correlograma podemos concluir que su correspondiente serie no es estacionaria si la función no decrece rápidamente.
 
@@ -875,60 +876,267 @@ Prophet intenta ajustar las funciones (lineales o no) a los datos dando más o m
 
 \end{enumerate}
 
+
+
+
+
+
+
 \section{Análisis de Resultados}
+
+Para analizar el trabajo desarrollado, trabajamos con tres criptomonedas populares del mercado: Bitcoin [BTC], Ether [ETH] y Ada [ADA]. Los datasets, a su vez, son de periodos de 1 día y 30 minutos para cada uno de los activos financieros.
+
+\subsection{Métricas}
+
+Un pequeño apartado dedicado a mostrar las métricas de precisión para las series temporales que utilizaremos.
+
+\begin{itemize}
+
+\item Mean Absolute Error [MAE]
+
+Fácil de entender y computar. Recomendada para evaluar la precisión de una sola serie pero para comparar distintas series, con distintas unidades, no es adecuado.
+
+
+\item Mean Absolute Percentage Error [MAPE]
+
+Las ventajas de MAPE son su independencia de escala y su fácil interpretación. Al ser una métrica de porcentaje, se puede usar para comparar el resultado de múltiples modelos de series temporales con diferentes escalas. Sin embargo, tiene como desventaja generar valores infinitos o indefinidos para valores reales cero o cercanos a cero.
+
+\item Root Mean Square Error [RMSE]
+
+Esta  medida  es la  raíz  del  promedio  de  los cuadrados del error de cada artículo en el periodo elegido. Es sensible a los valores atípicos. Se utiliza para comparar la precisión de diferentes métodos de predicción.
+
+\end{itemize}
+
+\subsection{$ARIMA(p,d,q)$}
+
+Determinar adecuadamente los parámetros $p$, $q$, $d$ bajo los supuestos de $ARIMA$ es el objetivo antes de realizar algún pronóstico de la serie temporal.
+
+En la figura \ref{f:btc_1d_diff-fac} (a) aplicamos los valores $d=\{1,2,3\}$ sobre la serie del Bitcoin. El resultado de los correlogramas (b) no difiere en gran medida. Sin embargo, el comportamiento deseado es una tendencia decreciente: $d=1$ cumple este requisito, pero a medida que aumentamos las diferenciaciones, la tendencia es de crecimiento.
+
+La figura \ref{f:fac_btc_p} es el correlograma parcial (proveniente de la función de autocorrelación parcial) para $p=\{1,2\}$. El comportamiento deseado es aquel donde los valores superen la zona de significancia (región azul). Si bien en ambos casos el valor de p cumple las condiciones, elegiremos $p=2$ puesto que superaría lo esperado con creces.
+
+Finalmente, la función de autocorrelación indica cuantos términos de medias móviles se requieren para eliminar cualquier autocorrelación en la serie estacionaria. La figura \ref{f:fac_btc_q}(a), de orden 1, es adecuada por tener la mayoria de sus valores por debajo del nivel de significancia. Aumentando el orden, los valores escapan de este requisito (b).
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[Diferenciaciones]{
+   \label{f:diff}
+    \includegraphics[width=0.495\textwidth]{./plots/arima/plots_btc/btc_1d_diff}}
+  \subfloat[Autocorrelograma]{
+   \label{f:fac}
+    \includegraphics[width=0.48\textwidth]{./plots/arima/plots_btc/btc_1d_fac}}
+  \caption{Sucesivas diferenciaciones y efecto en el autocorrelograma para la serie temporal de BTC con periodo de 1 día.}
+  \label{f:btc_1d_diff-fac}
+\end{figure}
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[$p=1$]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc/btc_1d_pac_p}}
+  \subfloat[$p=2$]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc/btc_1d_pac_p2}}
+  \caption{Correlograma parcial de la diferenciación para el parámetro $p$}
+  \label{f:fac_btc_p}
+\end{figure}
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[$q=1$]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc/btc_1d_pac_q}}
+  \subfloat[$q=2$]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc/btc_1d_pac_q2}}
+  \caption{Correlograma de la diferenciación para el parámetro $q$}
+  \label{f:fac_btc_q}
+\end{figure}
+
+Con el fin de no extender y abrumar con gráficos y aún validar lo expuesto, para los restantes datasets se exhibirán los gráficos con los parámetros $p$ y $q$ elegidos, y la estacionariedad al variar $d$ en el Anexo I. En todos se encuentra un patrón común: $ARIMA(2,1,1)$
+
+\subsubsection{Predicciones aleatorias}
+
+Los gráficos (figura \ref{f:btc_wk_arima}) fueron obtenidos a partir del entrenamiento del modelo en periodo de 30 días, seleccionando aleatoriamente 10 veces. Adjuntamos las métricas para cada uno de ellos en el cuadro (\ref{tab:btc})
+
+Los datasets utilizados fueron aquellos con periodos de 1 día.
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_weekly/btc_wk10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de BTC}
+  \label{f:btc_wk_arima}
+\end{figure}
+
+\begin{table}[h!]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 3886 & 4243 & 3088 & 268.4 & 600.9 & 2476 & 1495 & 90.04 & 418.8 & 3001 \\
+    RMSE & 4499 & 4703 & 3573 & 290.1 & 680.4 & 2817 & 1611 & 107.5 & 506.8 & 3276 \\
+    MAPE & 0.526 & 0.074 & 0.050 & 0.023 & 0.055 & 0.051 & 0.044 & 0.023 & 0.048 & 0.250 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:btc}
+ \end{center}
+\end{table}
+
+En la figura \ref{f:btc_wk_arima}
+
+\begin{figure}
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc_random_monthly/btc_mth10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de BTC}
+  \label{f:btc_mth_arima}
+\end{figure}
+
+\begin{table}[t]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 1924 & 255.9 & 186.1 & 1003 & 756.4 & 268.8 & 2692 & 588.8 & 233.9 & 121.2 \\
+    RMSE & 2264 & 335.8 & 235.0 & 1111 & 897.0 & 309.9 & 2970 & 753.8 & 418.3 & 125.9 \\
+    MAPE & 0.054 & 0.024 & 0.019 & 0.017 & 0.017 & 0.053 & 0.083 & 0.048 & 0.024 & 0.019 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:btc}
+ \end{center}
+\end{table}
+
+
+
+
+
+
+
+\subsection{Prophet}
+
+\subsubsection{Predicciones Aleatorias}
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/week/10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de BTC}
+  \label{f:btc_wk_prophet}
+\end{figure}
+
+\begin{table}[h!]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
+    RMSE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
+    MAPE & 0.017 & 0.032 & 0.293 & 0.402 & 0.149 & 0.379 & 0.063 & 0.012 & 0.265 & 0.087 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:btc_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/btc/month/10}}
+  \caption{Predicción del modelo entrenado con 10 meses aleatorios de BTC}
+  \label{f:btc_mth_prophet}
+\end{figure}
+
+\begin{table}[t]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 62931 & 20152 & 196094 & 19753 & 34188 & 11018 & 246692 & 21603 & 62265 & 26942 \\
+    RMSE & 87618 & 27940 & 274664 & 27251 & 45858 & 15213 & 174472 & 30480 & 85150 & 36169 \\
+    MAPE & 7.543 & 3.136 & 4.508 & 2.217 & 4.099 & 1.590 & 18.68 & 5.589 & 1.108 & 1.49 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:btc_prophet_m}
+ \end{center}
+\end{table}
+
+
+
+
 
 \section{Conclusión}
 
-%\renewcommand\refname{Referencias}
-\begin{thebibliography}{X}
 
-\bibitem{Hyn} \textsc{Hyndman, R.J.} y \textsc{Athanasopoulos, G.},
-\textit{Forecasting: principles and practice}, 3ra edición, OTexts: Melbourne, Australia. 2021.
 
-\bibitem{Shu} \textsc{Shumway, R. H.} y \textsc{Stoffer, D. S.}, \textit{Time series analysis and its applications: With R examples}. Springer: New York. 2006.
 
-\bibitem{Por} \textsc{Porro Vargas, M. A.}, \textit{Modelos de análisis de criptomonedas basado en aprendizaje automático y series temporales}. Universidad Central de Venezuela: Caracas. 2018.
 
-\bibitem{Gon} \textsc{González Casimiro, M. P.}, \textit{Análisis de series temporales: Modelos ARIMA}. Sarriko-On: País Vasco. 2009.
 
-\bibitem{Ask} \textsc{Ask Python}, \textit{Crypto Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.askpython.com/python/examples/crypto-price-prediction}{artículo \faExternalLink.}
 
-\bibitem{Ben} \textsc{Benedict, N.}, \textit{Ethereum Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://medium.com/bitgrit-data-science-publication/ethereum-price-prediction-with-python-3b3805e6e512}{artículo \faExternalLink.}
 
-\bibitem{Ler} \textsc{Lertlumprasert, C.}, \textit{CryptoCurrency Price Prediction with Python}. 2018. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/demystifying-cryptocurrency-price-prediction-5fb2b504a110}{artículo \faExternalLink.}
-
-\bibitem{Pie} \textsc{Pierre, S.}, \textit{A Guide to Time Series Forecasting in Python}. 2021. Recuperado el 04-01-2022 de \href{https://builtin.com/data-science/time-series-forecasting-python}{artículo \faExternalLink.}
-
-\bibitem{Gri} \textsc{Grigsby, J.}, \textit{Multivariate Time Series Forecasting with Transformers}. 2021. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/multivariate-time-series-forecasting-with-transformers-384dc6ce989b}{artículo \faExternalLink.}
-
-\bibitem{Lhe} \textsc{Lhessani, S.}, \textit{How I Tripled My Return on Bitcoin Using Mathematics, Algorithms, and Python}. 2021. Recuperado el 04-01-2022 de \href{https://levelup.gitconnected.com/how-i-tripled-my-return-on-bitcoin-using-mathematics-algorithms-and-python-347edd9b5625}{artículo \faExternalLink.}
-
-\bibitem{Kha} \textsc{Kharwal, A.}, \textit{Cryptocurrency Price Prediction with Machine Learning}. 2021. Recuperado el 04-01-2022 de \href{https://thecleverprogrammer.com/2021/12/27/cryptocurrency-price-prediction-with-machine-learning/}{artículo \faExternalLink.}
-
-\bibitem{Kum} \textsc{Kumar, S.}, \textit{Cryptocurrency (Ethereum) Price Prediction Using Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.godatainsights.com/post/cryptocurrency-ethereum-price-prediction-using-python}{artículo \faExternalLink.}
-
-\bibitem{Vas} \textsc{Vasulka, M.}, \textit{Stock and cryptocurrency price prediction with python Prophet}. 2021. Recuperado el 07-01-2022 de \href{https://tcoil.info/stock-and-cryptocurrency-price-prediction-with-python-prophet/}{artículo \faExternalLink.}
-
-\bibitem{Pei} \textsc{Peixero, M.}, \textit{The Complete Guide to Time Series Analysis and Forecasting}. 2019. Recuperado el 08-01-2022 de \href{https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775}{artículo \faExternalLink.}
-
-\bibitem{Rod1} \textsc{Rodó, P}, \textit{Modelo AR(1)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-ar1.html}{artículo \faExternalLink.}
-
-\bibitem{Rod2} \textsc{Rodó, P.}, \textit{Modelo autorregresivo (AR)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-autorregresivo-ar.html}{artículo \faExternalLink.}
-
-\bibitem{Rod3} \textsc{Rodó, P.}, \textit{Modelo ARMA}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-arma.html}{artículo \faExternalLink.}
-
-\bibitem{Wik} \textsc{Wikipedia}, \textit{Media Móvil}. 2009. Recuperado el 11-01-2022 de \href{https://es.wikipedia.org/wiki/Media_movil#Media_movil_simple}{artículo \faExternalLink.}
-
-\bibitem{Sae} \textsc{Saenz, F.}, \textit{Medias móvil simple, exponencial y ponderada: formulas y ejemplos}. 2020. Recuperado el 11-01-2022 de \href{https://www.rankia.cl/blog/analisis-ipsa/2039072-medias-movil-simple-exponencial-ponderada-formulas-ejemplos}{artículo \faExternalLink.}
-
-\bibitem{Lop} \textsc{Lopez Briega, R. E.}, \textit{Series de tiempo con Python}. 2016. Recuperado el 13-01-2022 de \href{https://relopezbriega.github.io/blog/2016/09/26/series-de-tiempo-con-python/}{artículo \faExternalLink.}
-
-\bibitem{Ich} \textsc{Ichi-Pro}, \textit{Análisis de series de tiempo con Facebook Prophet: cómo funciona y cómo usarlo}. 2021. Recuperado el 08-02-2022 de \href{https://ichi.pro/es/analisis-de-series-de-tiempo-con-facebook-prophet-como-funciona-y-como-usarlo-265389504990778}{artículo \faExternalLink.}
-
-\bibitem{LopS} \textsc{Lopez Saez, J. I.}, \textit{Análisis de Series de Tiempo}. 2018. Recuperado el 08-02-2022 de \href{https://ri.itba.edu.ar/bitstream/handle/123456789/1230/TFI - Jose_ Ignacio Lo_pez Sa_ez.pdf?sequence=1&isAllowed=y}{artículo \faExternalLink.}
-
-\bibitem{Sag} \textsc{Sagar A.}, \textit{Cryptocurrency Price Prediction Using Deep Learning}. 2019. Recuperado el 12-03-2022 de \href{https://towardsdatascience.com/cryptocurrency-price-prediction-using-deep-learning-70cfca50dd3a}{artículo \faExternalLink.}
-
-\end{thebibliography}
 
 \end{document}

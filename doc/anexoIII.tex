@@ -1,0 +1,192 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{subfigure}
+\RequirePackage{fontawesome}
+%opening
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\includegraphics[width=0.9\textwidth]{fing_uncuyo}\par}
+\vspace{1cm}
+{\bfseries\LARGE Universidad Nacional de Cuyo \par}
+\vspace{1cm}
+{\scshape\Large Facultad de Ingeniería \par}
+\vspace{3cm}
+{\scshape\Huge Predicción de Precios de Criptomonedas con ARIMA y Prophet \par}
+\vspace{3cm}
+{\itshape\Large Proyecto Final: Anexo III\\Inteligencia Artificial I \par}
+\vfill
+{\Large MOLINA, Mauro \par}
+{\Large FLORES, Daniel Emiliano \par}
+\vfill
+{\Large Marzo 2022 \par}
+\end{titlepage}
+
+\newpage
+
+\section{Gráficos de periodo mensual y semanal aleatorios con Prophet}
+\begin{figure}[h!]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/week/10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de BTC}
+  \label{f:eth_wk_prophet}
+\end{figure}
+
+\begin{table}[h!]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 3886 & 4243 & 3088 & 268.4 & 600.9 & 2476 & 1495 & 90.04 & 418.8 & 3001 \\
+    RMSE & 4499 & 4703 & 3573 & 290.1 & 680.4 & 2817 & 1611 & 107.5 & 506.8 & 3276 \\
+    MAPE & 0.526 & 0.074 & 0.050 & 0.023 & 0.055 & 0.051 & 0.044 & 0.023 & 0.048 & 0.250 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:eth_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{figure}
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/eth/month/10}}
+  \caption{Predicción del modelo entrenado con 10 meses aleatorios de BTC}
+  \label{f:eth_mth_prophet}
+\end{figure}
+
+\begin{table}[t]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 1924 & 255.9 & 186.1 & 1003 & 756.4 & 268.8 & 2692 & 588.8 & 233.9 & 121.2 \\
+    RMSE & 2264 & 335.8 & 235.0 & 1111 & 897.0 & 309.9 & 2970 & 753.8 & 418.3 & 125.9 \\
+    MAPE & 0.054 & 0.024 & 0.019 & 0.017 & 0.017 & 0.053 & 0.083 & 0.048 & 0.024 & 0.019 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:eth_prophet_m}
+ \end{center}
+\end{table}
+
+\begin{figure}[h!]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/week/10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de BTC}
+  \label{f:ada_wk_prophet}
+\end{figure}
+
+\begin{table}[h!]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 3886 & 4243 & 3088 & 268.4 & 600.9 & 2476 & 1495 & 90.04 & 418.8 & 3001 \\
+    RMSE & 4499 & 4703 & 3573 & 290.1 & 680.4 & 2817 & 1611 & 107.5 & 506.8 & 3276 \\
+    MAPE & 0.526 & 0.074 & 0.050 & 0.023 & 0.055 & 0.051 & 0.044 & 0.023 & 0.048 & 0.250 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:ada_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{figure}
+ \centering
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/1}}
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/2}} \\
+  \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/3}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/4}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/5}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/6}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/7}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/8}} \\
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/9}}
+   \subfloat[]{
+   \includegraphics[width=0.5\textwidth]{./plots/prophet/ada/month/10}}
+  \caption{Predicción del modelo entrenado con 10 meses aleatorios de BTC}
+  \label{f:ada_mth_prophet}
+\end{figure}
+
+\begin{table}[t]
+ \begin{center}
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 1924 & 255.9 & 186.1 & 1003 & 756.4 & 268.8 & 2692 & 588.8 & 233.9 & 121.2 \\
+    RMSE & 2264 & 335.8 & 235.0 & 1111 & 897.0 & 309.9 & 2970 & 753.8 & 418.3 & 125.9 \\
+    MAPE & 0.054 & 0.024 & 0.019 & 0.017 & 0.017 & 0.053 & 0.083 & 0.048 & 0.024 & 0.019 \\ \hline
+  \end{tabular}
+  \caption{Fruta disponible}
+  \label{tab:ada_prophet_m}
+ \end{center}
+\end{table}
+
+\end{document}

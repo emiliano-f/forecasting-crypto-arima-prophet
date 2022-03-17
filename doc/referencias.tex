@@ -1,0 +1,87 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{subfigure}
+\RequirePackage{fontawesome}
+%opening
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\includegraphics[width=0.9\textwidth]{fing_uncuyo}\par}
+\vspace{1cm}
+{\bfseries\LARGE Universidad Nacional de Cuyo \par}
+\vspace{1cm}
+{\scshape\Large Facultad de Ingeniería \par}
+\vspace{3cm}
+{\scshape\Huge Predicción de Precios de Criptomonedas con ARIMA y Prophet \par}
+\vspace{3cm}
+{\itshape\Large Proyecto Final: Referencias\\Inteligencia Artificial I \par}
+\vfill
+{\Large MOLINA, Mauro \par}
+{\Large FLORES, Daniel Emiliano \par}
+\vfill
+{\Large Marzo 2022 \par}
+\end{titlepage}
+
+\newpage
+
+%\renewcommand\refname{Referencias}
+\begin{thebibliography}{X}
+
+\bibitem{Hyn} \textsc{Hyndman, R.J.} y \textsc{Athanasopoulos, G.},
+\textit{Forecasting: principles and practice}, 3ra edición, OTexts: Melbourne, Australia. 2021.
+
+\bibitem{Shu} \textsc{Shumway, R. H.} y \textsc{Stoffer, D. S.}, \textit{Time series analysis and its applications: With R examples}. Springer: New York. 2006.
+
+\bibitem{Por} \textsc{Porro Vargas, M. A.}, \textit{Modelos de análisis de criptomonedas basado en aprendizaje automático y series temporales}. Universidad Central de Venezuela: Caracas. 2018.
+
+\bibitem{Gon} \textsc{González Casimiro, M. P.}, \textit{Análisis de series temporales: Modelos ARIMA}. Sarriko-On: País Vasco. 2009.
+
+\bibitem{Ask} \textsc{Ask Python}, \textit{Crypto Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.askpython.com/python/examples/crypto-price-prediction}{artículo \faExternalLink.}
+
+\bibitem{Ben} \textsc{Benedict, N.}, \textit{Ethereum Price Prediction with Python}. 2021. Recuperado el 04-01-2022 de \href{https://medium.com/bitgrit-data-science-publication/ethereum-price-prediction-with-python-3b3805e6e512}{artículo \faExternalLink.}
+
+\bibitem{Ler} \textsc{Lertlumprasert, C.}, \textit{CryptoCurrency Price Prediction with Python}. 2018. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/demystifying-cryptocurrency-price-prediction-5fb2b504a110}{artículo \faExternalLink.}
+
+\bibitem{Pie} \textsc{Pierre, S.}, \textit{A Guide to Time Series Forecasting in Python}. 2021. Recuperado el 04-01-2022 de \href{https://builtin.com/data-science/time-series-forecasting-python}{artículo \faExternalLink.}
+
+\bibitem{Gri} \textsc{Grigsby, J.}, \textit{Multivariate Time Series Forecasting with Transformers}. 2021. Recuperado el 04-01-2022 de \href{https://towardsdatascience.com/multivariate-time-series-forecasting-with-transformers-384dc6ce989b}{artículo \faExternalLink.}
+
+\bibitem{Lhe} \textsc{Lhessani, S.}, \textit{How I Tripled My Return on Bitcoin Using Mathematics, Algorithms, and Python}. 2021. Recuperado el 04-01-2022 de \href{https://levelup.gitconnected.com/how-i-tripled-my-return-on-bitcoin-using-mathematics-algorithms-and-python-347edd9b5625}{artículo \faExternalLink.}
+
+\bibitem{Kha} \textsc{Kharwal, A.}, \textit{Cryptocurrency Price Prediction with Machine Learning}. 2021. Recuperado el 04-01-2022 de \href{https://thecleverprogrammer.com/2021/12/27/cryptocurrency-price-prediction-with-machine-learning/}{artículo \faExternalLink.}
+
+\bibitem{Kum} \textsc{Kumar, S.}, \textit{Cryptocurrency (Ethereum) Price Prediction Using Python}. 2021. Recuperado el 04-01-2022 de \href{https://www.godatainsights.com/post/cryptocurrency-ethereum-price-prediction-using-python}{artículo \faExternalLink.}
+
+\bibitem{Vas} \textsc{Vasulka, M.}, \textit{Stock and cryptocurrency price prediction with python Prophet}. 2021. Recuperado el 07-01-2022 de \href{https://tcoil.info/stock-and-cryptocurrency-price-prediction-with-python-prophet/}{artículo \faExternalLink.}
+
+\bibitem{Pei} \textsc{Peixero, M.}, \textit{The Complete Guide to Time Series Analysis and Forecasting}. 2019. Recuperado el 08-01-2022 de \href{https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775}{artículo \faExternalLink.}
+
+\bibitem{Rod1} \textsc{Rodó, P}, \textit{Modelo AR(1)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-ar1.html}{artículo \faExternalLink.}
+
+\bibitem{Rod2} \textsc{Rodó, P.}, \textit{Modelo autorregresivo (AR)}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-autorregresivo-ar.html}{artículo \faExternalLink.}
+
+\bibitem{Rod3} \textsc{Rodó, P.}, \textit{Modelo ARMA}. 2021. Recuperado el 11-01-2022 de \href{https://economipedia.com/definiciones/modelo-arma.html}{artículo \faExternalLink.}
+
+\bibitem{Wik} \textsc{Wikipedia}, \textit{Media Móvil}. 2009. Recuperado el 11-01-2022 de \href{https://es.wikipedia.org/wiki/Media_movil#Media_movil_simple}{artículo \faExternalLink.}
+
+\bibitem{Sae} \textsc{Saenz, F.}, \textit{Medias móvil simple, exponencial y ponderada: formulas y ejemplos}. 2020. Recuperado el 11-01-2022 de \href{https://www.rankia.cl/blog/analisis-ipsa/2039072-medias-movil-simple-exponencial-ponderada-formulas-ejemplos}{artículo \faExternalLink.}
+
+\bibitem{Lop} \textsc{Lopez Briega, R. E.}, \textit{Series de tiempo con Python}. 2016. Recuperado el 13-01-2022 de \href{https://relopezbriega.github.io/blog/2016/09/26/series-de-tiempo-con-python/}{artículo \faExternalLink.}
+
+\bibitem{Ich} \textsc{Ichi-Pro}, \textit{Análisis de series de tiempo con Facebook Prophet: cómo funciona y cómo usarlo}. 2021. Recuperado el 08-02-2022 de \href{https://ichi.pro/es/analisis-de-series-de-tiempo-con-facebook-prophet-como-funciona-y-como-usarlo-265389504990778}{artículo \faExternalLink.}
+
+\bibitem{LopS} \textsc{Lopez Saez, J. I.}, \textit{Análisis de Series de Tiempo}. 2018. Recuperado el 08-02-2022 de \href{https://ri.itba.edu.ar/bitstream/handle/123456789/1230/TFI - Jose_ Ignacio Lo_pez Sa_ez.pdf?sequence=1&isAllowed=y}{artículo \faExternalLink.}
+
+\bibitem{Sag} \textsc{Sagar A.}, \textit{Cryptocurrency Price Prediction Using Deep Learning}. 2019. Recuperado el 12-03-2022 de \href{https://towardsdatascience.com/cryptocurrency-price-prediction-using-deep-learning-70cfca50dd3a}{artículo \faExternalLink.}
+
+\end{thebibliography}
+
+\end{document}
