@@ -1,4 +1,5 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage[top=3cm, bottom=3cm, right=4.5cm, left=4.5cm]{geometry}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[breaklinks=true]{hyperref}
@@ -6,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{float}
 %\usepackage{subfigure}
 \RequirePackage{fontawesome}
 %opening
@@ -34,7 +36,7 @@
 
 \textbf{\large Gráficos de periodo mensual y semanal aleatorios con ARIMA(2,1,1)}
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
   \subfloat[]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_eth_random_weekly/eth_wk1}}
@@ -60,7 +62,7 @@
   \label{f:eth_wk_arima}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[H]
  \begin{center}
   \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
     Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
@@ -73,7 +75,7 @@
  \end{center}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
   \subfloat[]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_ada_random_weekly/ada_wk1}}
@@ -99,7 +101,7 @@
   \label{f:ada_wk_arima}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[H]
  \begin{center}
   \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
     Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
@@ -112,7 +114,7 @@
  \end{center}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
   \subfloat[]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_eth_random_monthly/eth_mth1}}
@@ -138,7 +140,7 @@
   \label{f:eth_mth_arima}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[H]
  \begin{center}
   \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
     Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
@@ -151,7 +153,7 @@
  \end{center}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
   \subfloat[]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_ada_random_monthly/ada_mth1}}
@@ -177,7 +179,7 @@
   \label{f:ada_mth_arima}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[H]
  \begin{center}
   \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
     Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline

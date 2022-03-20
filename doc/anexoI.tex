@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{float}
 %\usepackage{subfigure}
 \RequirePackage{fontawesome}
 %opening
@@ -33,7 +34,7 @@
 \newpage
 \textbf{\large Diferenciaciones para los parámetros $p$, $q$, y $d$ en cada dataset}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Diferenciaciones]{
    \label{f:diff}
@@ -46,7 +47,7 @@
 \end{figure}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Correlograma Parcial. $p=2$]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_btc/btc_30m_pac_p}}
@@ -56,7 +57,7 @@
   \label{f:fac_btc_30m}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Diferenciaciones]{
    \label{f:diff}
@@ -68,7 +69,7 @@
   \label{f:eth_1d_diff-fac}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Correlograma Parcial. $p=2$]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_eth/eth_1d_pac_p}}
@@ -78,7 +79,7 @@
   \label{f:fac_eth_1d}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Diferenciaciones]{
    \label{f:diff}
@@ -90,7 +91,7 @@
   \label{f:eth_30m_diff-fac}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Correlograma Parcial. $p=2$]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_eth/eth_30m_pac_p}}
@@ -100,7 +101,7 @@
   \label{f:fac_eth_30m}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Diferenciaciones]{
    \label{f:diff}
@@ -112,7 +113,7 @@
   \label{f:ada_1d_diff-fac}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Correlograma Parcial. $p=2$]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_ada/ada_1d_pac_p}}
@@ -122,7 +123,7 @@
   \label{f:fac_ada_1d}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Diferenciaciones]{
    \label{f:diff}
@@ -134,7 +135,7 @@
   \label{f:ada_30m_diff-fac}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
   \subfloat[Correlograma Parcial. $p=2$]{
    \includegraphics[width=0.5\textwidth]{./plots/arima/plots_ada/ada_30m_pac_p}}
