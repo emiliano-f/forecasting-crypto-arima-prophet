@@ -957,6 +957,38 @@ Los datasets utilizados fueron aquellos con periodos de un día.
 
 Los entrenamientos correspondientes a las criptomonedas ADA y ETH se encuentran en el Anexo II.
 
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 3886 & 4243 & 3088 & 268.4 & 600.9 & 2476 & 1495 & 90.04 & 418.8 & 3001 \\
+    RMSE & 4499 & 4703 & 3573 & 290.1 & 680.4 & 2817 & 1611 & 107.5 & 506.8 & 3276 \\
+    MAPE & 0.526 & 0.074 & 0.050 & 0.023 & 0.055 & 0.051 & 0.044 & 0.023 & 0.048 & 0.250 \\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:btc_wk_arima}}
+  \label{tab:btc}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 7184& 57168& 62501& 11415& 10858& 48674& 34066& 3931& 8778& 11638 \\
+    & Desviación estándar & 454& 1650& 1795& 84& 232& 901& 708& 24& 154& 1192 \\
+    Pronóstico & Media & 3298& 55860& 64425& 11202& 10258& 51093& 34196& 3855& 9109& 8637 \\
+    & Desviación estándar & 1882& 3032& 2161& 199& 99& 849& 1649& 56& 258& 486 \\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:btc_wk_arima}}
+  \label{tab:btc_wk_avestd}
+ \end{center}
+\end{table}
+
 \begin{figure}[H]
  \centering
   \subfloat[]{
@@ -983,20 +1015,20 @@ Los entrenamientos correspondientes a las criptomonedas ADA y ETH se encuentran 
   \label{f:btc_wk_arima}
 \end{figure}
 
-\begin{table}[H]
- \begin{center}
- \resizebox{12cm}{!} {
-  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
-    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
-    MAE & 3886 & 4243 & 3088 & 268.4 & 600.9 & 2476 & 1495 & 90.04 & 418.8 & 3001 \\
-    RMSE & 4499 & 4703 & 3573 & 290.1 & 680.4 & 2817 & 1611 & 107.5 & 506.8 & 3276 \\
-    MAPE & 0.526 & 0.074 & 0.050 & 0.023 & 0.055 & 0.051 & 0.044 & 0.023 & 0.048 & 0.250 \\ \hline
-  \end{tabular}
-  }
-  \caption{Métricas de la figura \ref{f:btc_wk_arima}}
-  \label{tab:btc}
- \end{center}
-\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/arima/plots_btc_random_weekly/ave}
+\label{f:btc_ave_wk}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/arima/plots_btc_random_weekly/std}
+\label{f:btc_std_wk}
+\end{figure}
+
 
 Para nuestro análisis, tomaremos los ejemplos más significativos: \ref{f:btc_wk_arima}(a), \ref{f:btc_wk_arima}(b) y \ref{f:btc_wk_arima}(d).
 
@@ -1007,21 +1039,6 @@ $MAE$ se define como el promedio de los errores absolutos para cada una de las o
 No. El problema de afirmar la pregunta es que ignora la evolución de los precios. Sin dudas obtendríamos la métrica increiblemente baja si tomamos algún periodo del 2017 en lugar de algún periodo de 2021. Particularmente, al obtener valores tan altos, sí podría señalarnos que la predicción no es la deseada.
 
 La métrica MAPE es una medida porcentual\footnote{Los datos recopilados en el cuadro, sin embargo, no estan expresados porcentualmente.} cuyos valores más pequeños indican un mejor ajuste. El gráfico (a) acierta correctamente en esto, otorgando un $52.6\%$ de error a la predicción. En línea con lo anterior, observamos que para (b) otorga un 7.4\% -un valor, a simple vista, realmente malo- y para (d) un 2.3\%, quizás más aceptable subjetivamente.
-
-\begin{table}[H]
- \begin{center}
- \resizebox{12cm}{!} {
-  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
-    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
-    MAE & 1924 & 255.9 & 186.1 & 1003 & 756.4 & 268.8 & 2692 & 588.8 & 233.9 & 121.2 \\
-    RMSE & 2264 & 335.8 & 235.0 & 1111 & 897.0 & 309.9 & 2970 & 753.8 & 418.3 & 125.9 \\
-    MAPE & 0.054 & 0.024 & 0.019 & 0.017 & 0.017 & 0.053 & 0.083 & 0.048 & 0.024 & 0.019 \\ \hline
-  \end{tabular}
-  }
-  \caption{Métricas de la figura \ref{f:btc_mth_arima}}
-  \label{tab:btc_wk}
- \end{center}
-\end{table}
 
 \begin{figure}[H]
  \centering
@@ -1049,6 +1066,49 @@ La métrica MAPE es una medida porcentual\footnote{Los datos recopilados en el c
   \label{f:btc_mth_arima}
 \end{figure}
 
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 1924 & 255.9 & 186.1 & 1003 & 756.4 & 268.8 & 2692 & 588.8 & 233.9 & 121.2 \\
+    RMSE & 2264 & 335.8 & 235.0 & 1111 & 897.0 & 309.9 & 2970 & 753.8 & 418.3 & 125.9 \\
+    MAPE & 0.054 & 0.024 & 0.019 & 0.017 & 0.017 & 0.053 & 0.083 & 0.048 & 0.024 & 0.019 \\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:btc_mth_arima}}
+  \label{tab:btc_wk}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 36264& 10673& 9666& 58682& 42684& 5134& 33227& 11930& 9170& 6373 \\
+    & Desviación estándar & 1034& 288 & 196& 607& 721& 91& 1187& 451& 370& 30 \\
+    Pronóstico & Media & 38499 & 10908& 9788& 57753& 42921& 5410& 35698& 11273& 8923& 6489 \\
+    & Desviación estándar & 121& 16& 119& 54& 118& 90& 80& 56& 57& 4 \\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:btc_mth_arima}}
+  \label{tab:btc_mth_avestd}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/arima/plots_btc_random_monthly/ave}
+\label{f:btc_ave_mh}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/arima/plots_btc_random_monthly/std}
+\label{f:btc_std_mh}
+\end{figure}
 
 
 
