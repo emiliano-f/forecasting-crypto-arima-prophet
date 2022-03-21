@@ -1126,21 +1126,6 @@ Hay mucha incertidumbre en los modelos con poco entrenamiento. Esto se vé refle
 Esta biblioteca funciona muy bien siempre y cuando los datos no presenten alta frecuencia ni horizontes de predicción muy cortos, ya que los datos pueden no ser suficientes para
 determinar la estacionalidad o pueden variar mucho como para establecer la periodicidad (ver figura \ref{f:btc_mth_prophet}(f) respecto a (h)).
 
-\begin{table}[H]
- \begin{center}
- \resizebox{12cm}{!} {
-  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
-    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
-    MAE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
-    RMSE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
-    MAPE & 0.017 & 0.032 & 0.293 & 0.402 & 0.149 & 0.379 & 0.063 & 0.012 & 0.265 & 0.087 \\ \hline
-  \end{tabular}
-  }
-  \caption{Métricas de la figura \ref{f:btc_wk_prophet}}
-  \label{tab:btc_prophet_wk}
- \end{center}
-\end{table}
-
 \begin{figure}[H]
  \centering
   \subfloat[]{
@@ -1167,6 +1152,49 @@ determinar la estacionalidad o pueden variar mucho como para establecer la perio
   \label{f:btc_wk_prophet}
 \end{figure}
 
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
+    RMSE & 65.19 & 1616 & 2386 & 25018 & 9654 & 14195 & 633.9 & 78.68 & 1803 & 3678 \\
+    MAPE & 0.017 & 0.032 & 0.293 & 0.402 & 0.149 & 0.379 & 0.063 & 0.012 & 0.265 & 0.087 \\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:btc_wk_prophet}}
+  \label{tab:btc_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 42807 & 48455 & 9155 & 9124 & 10418 & 6755 & 38651 & 11006 & 17951 & 46110 \\
+    & Desviación estándar & 1451 & 865 & 406 & 379 & 155 & 361 & 491 & 1048 & 1288 & 1131 \\
+    Pronóstico & Media & 47681 & 38809 & 6420 & 6699 & 11859 & 7966 & 49887 & 9077 & 9046 & 47369 \\
+    & Desviación estándar & 439 & 341 & 135 & 61 & 65 & 196 & 2242 & 254 & 358 & 301 \\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:btc_wk_prophet}}
+  \label{tab:btc_wk_avestd_p}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/btc/week/ave}
+\label{f:btc_ave_wk_p}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/btc/week/std}
+\label{f:btc_std_wk_p}
+\end{figure}
 
 
 \begin{figure}[H]
@@ -1210,6 +1238,35 @@ determinar la estacionalidad o pueden variar mucho como para establecer la perio
  \end{center}
 \end{table}
 
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 58898 & 10218 & 9181 & 9311 & 8033 & 10429 & 8093 & 4088 & 8263 & 8804 \\
+    & Desviación estándar & 2177 & 95 & 100 & 173 & 581 & 501 & 97 & 168 & 87 & 462 \\
+    Pronóstico & Media & 59982 & 10593 & 8978 & 8311 & 8681 & 9591 & 8279 & 2970 & 7130 & 8302 \\
+    & Desviación estándar & 2636 & 118 & 91 & 139 & 607 & 183 & 60 & 339 & 594 & 171 \\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:btc_mth_prophet}}
+  \label{tab:btc_mth_avestd_p}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/btc/month/ave}
+\label{f:btc_ave_mh_p}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/btc/month/std}
+\label{f:btc_std_mh_p}
+\end{figure}
 
 
 
