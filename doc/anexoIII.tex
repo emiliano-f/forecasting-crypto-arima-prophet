@@ -1,0 +1,321 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[top=2.6cm, bottom=2.6cm, right=4.5cm, left=4.5cm]{geometry}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{subfigure}
+\RequirePackage{fontawesome}
+%opening
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\includegraphics[width=0.9\textwidth]{fing_uncuyo}\par}
+\vspace{1cm}
+{\bfseries\LARGE Universidad Nacional de Cuyo \par}
+\vspace{1cm}
+{\scshape\Large Facultad de Ingeniería \par}
+\vspace{3cm}
+{\scshape\Huge Predicción de Precios de Criptomonedas con ARIMA y Prophet \par}
+\vspace{3cm}
+{\itshape\Large Proyecto Final: Anexo III\\Inteligencia Artificial I \par}
+\vfill
+{\Large MOLINA, Mauro \par}
+{\Large FLORES, Daniel Emiliano \par}
+\vfill
+{\Large Marzo 2022 \par}
+\end{titlepage}
+
+\newpage
+
+\textbf{Gráficos de periodo mensual y semanal aleatorios con Prophet}
+\begin{figure}[H]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/1}}
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/2}} \\
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/3}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/4}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/5}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/6}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/7}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/8}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/9}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/week/10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de ETH}
+  \label{f:eth_wk_prophet}
+\end{figure}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 85.48& 64.18& 21.80& 93.37& 1302& 255.5& 289.8& 156.4& 644.0& 211.2\\
+    RMSE & 85.89& 67.01& 26.19& 93.68& 1312& 260.5& 293.5& 178.5& 654.6& 212.9\\
+    MAPE & 0.342& 0.137& 0.047& 0.348& 0.421& 0.154& 0.274& 0.167& 0.589& 0.387\\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:eth_wk_prophet}}
+  \label{tab:eth_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 249 & 472 & 465 & 267 & 3082 & 1675 & 1050 & 927 & 1083 & 543 \\
+    & Desviación estándar & 7 & 17 & 28 & 5 & 97 & 127 & 46 & 37 & 113 & 14 \\
+    Pronóstico & Media & 163 & 536 & 451 & 174 & 1780 & 1931 & 760 & 800 & 439 & 754\\
+    & Desviación estándar & 2 & 15 & 39 & 4 & 96 & 99 & 0 & 98 & 3 & 38 \\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:eth_wk_prophet}}
+  \label{tab:eth_wk_avestd}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/eth/week/ave}
+\label{f:eth_ave_wk}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/eth/week/std}
+\label{f:eth_std_wk}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/1}}
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/2}} \\
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/3}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/4}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/5}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/6}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/7}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/8}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/9}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/eth/month/10}}
+  \caption{Predicción del modelo entrenado con 10 meses aleatorios de ETH}
+  \label{f:eth_mth_prophet}
+\end{figure}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE  & 6.780& 142.8& 23.27& 17.73& 72.53& 823.9& 162.2& 15.70& 8.827& 495.6\\
+    RMSE & 8.151& 157.4& 25.07& 21.85&73.68& 828.0& 165.3& 19.09& 10.44& 539.7\\
+    MAPE & 0.051& 0.076& 0.108& 0.038& 0.128& 0.266& 0.097& 0.074& 0.050& 0.162\\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:eth_mth_prophet}}
+  \label{tab:eth_prophet_m}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 135 & 1883 & 214 & 466 & 569 & 3091 & 1667 & 205 & 175 & 3159\\
+    & Desviación estándar & 3 & 61 & 4 & 11 & 16 & 79 & 47 & 6 & 3 & 227 \\
+    Pronóstico & Media & 142 & 2025 & 190 & 483 & 641 & 2267 & 1829 & 191 & 167 & 3655\\
+    & Desviación estándar & 1 & 33 & 8 & 10 & 9 & 42 & 39 & 6 & 7 & 41\\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:eth_mth_prophet}}
+  \label{tab:eth_mh_avestd}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/eth/month/ave}
+\label{f:eth_ave_mh}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/eth/month/std}
+\label{f:eth_std_mh}
+\end{figure}
+
+
+
+
+
+\begin{figure}[H]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/1}}
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/2}} \\
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/3}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/4}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/5}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/6}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/7}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/8}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/9}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/week/10}}
+  \caption{Predicción del modelo entrenado con 10 semanas aleatorias de ADA}
+  \label{f:ada_wk_prophet}
+\end{figure}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 0.073& 0.021& 0.202& 0.022& 0.005& 0.003& 0.002& 0.251& 0.011& 0.007\\
+    RMSE & 0.075& 0.022& 0.203& 0.022& 0.005& 0.003& 0.002& 0.262& 0.012& 0.007\\
+    MAPE & 0.473& 0.426& 0.578& 0.165& 0.073& 0.055& 0.046& 0.183& 0.297& 0.170\\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:ada_wk_prophet}}
+  \label{tab:ada_prophet_wk}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 2.4743 & 0.7990 & 0.0750 & 0.3610 & 0.0305 & 0.0424 & 0.1082 & 1.2462 & 0.0959 & 0.1399\\
+    & Desviación estándar & 0.0926 & 0.2027 & 0.0073 & 0.0088 & 0.0012 & 0.0006 & 0.0101 & 0.0662 & 0.0028 & 0.0033\\
+    Pronóstico & Media & 2.7318 & 0.5484 & 0.0557 & 0.3270 & 0.0190 & 0.0396 & 0.1054 & 1.2793 & 0.0834 & 0.1458\\
+    & Desviación estándar & 0.1090 & 0.0337 & 0.0011 & 0.0139 & 0.0013 & 0.0004 & 0.0054 & 0.0497 & 0.0015 & 0.0045\\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:ada_wk_prophet}}
+  \label{tab:ada_wk_avestd}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/ada/week/ave}
+\label{f:ada_ave_wk}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/ada/week/std}
+\label{f:ada_std_wk}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/1}}
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/2}} \\
+  \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/3}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/4}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/5}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/6}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/7}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/8}} \\
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/9}}
+   \subfloat[]{
+   \includegraphics[width=6cm, height=3cm]{./plots/prophet/ada/month/10}}
+  \caption{Predicción del modelo entrenado con 10 meses aleatorios de ADA}
+  \label{f:ada_mth_prophet}
+\end{figure}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|c|c|c|c|c|c|c|c|c|c|}
+    Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    MAE & 0.257& 0.250& 0.019& 0.033& 0.0114& 0.002& 0.005& 0.084& 0.012& 0.005\\
+    RMSE & 0.285& 0.307& 0.020& 0.036& 0.011& 0.002& 0.006& 0.109& 0.013& 0.007\\
+    MAPE & 0.105& 0.279& 0.250& 0.093& 0.374& 0.065& 0.050& 0.070& 0.129& 0.042\\ \hline
+  \end{tabular}
+  }
+  \caption{Métricas de la figura \ref{f:ada_mth_prophet}}
+  \label{tab:ada_prophet_m}
+ \end{center}
+\end{table}
+
+\begin{table}[H]
+ \begin{center}
+ \resizebox{12cm}{!} {
+  \begin{tabular}{|r|r|c|c|c|c|c|c|c|c|c|c|}
+    & Métrica & (a) & (b) & (c) & (d) & (e) & (f) & (g) & (h) & (i) & (j) \\ \hline
+    Real & Media & 0.1551 & 0.0533 & 0.3496 & 0.1377 & 0.0725 & 0.0558 & 0.0432 & 1.3928 & 0.0403 & 0.0452\\
+    & Desviación estándar & 0.0109 & 0.0073 & 0.0195 & 0.0036 & 0.0030 & 0.0037 & 0.0010 & 0.0659 & 0.0009 & 0.0007\\
+    Pronóstico & Media & 0.0812 & 0.0746 & 0.1470 & 0.1149 & 0.0731 & 0.0549 & 0.0452 & 1.6441 & 0.0522 & 0.0529\\
+    & Desviación estándar & 0.0059 & 0.0003 & 0.0021 & 0.0026 & 0.00309 & 0.003 & 0.0014 & 0.0138 & 0.0018 & 0.0017\\ \hline
+  \end{tabular}
+  }
+  \caption{Medidas de dispersión de la figura \ref{f:ada_mth_prophet}}
+  \label{tab:ada_mh_avestd}
+ \end{center}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/ada/month/ave}
+\label{f:ada_ave_mh}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./plots/prophet/ada/month/std}
+\label{f:ada_std_mh}
+\end{figure}
+
+\end{document}
